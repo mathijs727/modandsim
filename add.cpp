@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
+#include <iostream>
+
+using namespace std;
+
 /*
  * This test program computes the sum of the series 1/i, with i an 
  * integer running from a value "from" to a value "to" (inclusive).
@@ -26,8 +29,8 @@ addRecursive(int from, int to)
    int N = 1 + to - from;
    int h;
    if (N < 1) return 0;
-   if (N == 1) return 1.0 / (float) from;
-   if (N == 2) return 1.0 / (float) from + 1.0 / (float) to;
+   if (N == 1) return 1.0f / (float) from;
+   if (N == 2) return 1.0f / (float) from + 1.0f / (float) to;
    h = (to + from) / 2;
    /* what values would h have?
       to   from  h
@@ -104,6 +107,22 @@ addReverseDouble(int from, int to)
     return sum;
 }
 
+// https://en.wikipedia.org/wiki/Kahan_summation_algorithm
+template<typename Type>
+Type kahanSum(int from, int to) {
+    Type sum = 0.0;
+    Type c = 0.0;                  // A running compensation for lost low-order bits.
+    for (int i = from; i < to; i++) {
+        Type y = (1.0 / i) - c;     // So far, so good: c is zero.
+        Type t = sum + y;          // Alas, sum is big, y small, so low-order digits of y are lost.
+        c = (t - sum) - y;         // (t - sum) recovers the high-order part of y; subtracting y recovers -(low part of y)
+        sum = t;                   // Algebraically, c should always be zero. Beware overly-aggressive optimizing compilers!
+        // Next time around, the lost low part will be added to y in a fresh attempt.
+    }
+
+    return sum;
+}
+
 int
 main(int argc, char* argv[])
 {
@@ -130,20 +149,25 @@ main(int argc, char* argv[])
            sum[1] =addReverse(from, to));
     printf("Recursive summation with floats: %g\n",
            sum[2] =addRecursive(from, to));
+    printf("Kahan summation with floats: %g\n",
+           sum[3] =kahanSum<float>(from, to));
     printf("Forward summation with doubles: %g\n",
-           sum[3] =addForwardDouble(from, to));
+           sum[4] =addForwardDouble(from, to));
     printf("Reverse summation with doubles: %g\n",
-           sum[4] =addReverseDouble(from, to));
+           sum[5] =addReverseDouble(from, to));
     printf("Recursive summation with doubles: %g\n",
-           sum[5] =addRecursiveDouble(from, to));
+           sum[6] =addRecursiveDouble(from, to));
+    printf("Kahan summation with doubles: %g\n",
+           sum[7] =kahanSum<double>(from, to));
     printf("Differences between results in a matrix:\n");
-    for (i = 0; i< 6; i++)
+    for (i = 0; i< 8; i++)
     {
-        for (j = 0; j< 6; j++)
+        for (j = 0; j< 8; j++)
         {
             printf("%12.5g\t", sum[i] - sum[j]);
         }
         printf("\n");
     }
+
     return 0;
 }
