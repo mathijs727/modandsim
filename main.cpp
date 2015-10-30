@@ -14,6 +14,7 @@ template <typename Type>
 Type maxValue();
 
 int main() {
+    cout << "==== Question A ====" << endl;
     cout << "Values from float.h" << endl;
     cout << "Byte size float: " << sizeof(float) << endl;
     cout << "Machine precision float: " << FLT_EPSILON << endl;
@@ -47,12 +48,17 @@ int main() {
     cout << "Maximum long double value: " << maxValue<long double>() << endl;
 
 
-    cout << "\n\n Question B" << endl;
-    cout << (INFINITY + (-INFINITY)) << endl;
-    cout << 0.0 * INFINITY << endl;
-    cout << 0.0 / 0.0 << endl;
-    cout << INFINITY / INFINITY << endl;
-    cout << sqrt(-1.0) << endl;
+    cout << "\n\n==== Question B ====" << endl;
+    /* Not a Number */
+    cout << "INFINITY + (-INFINITY) = " << (INFINITY + (-INFINITY)) << endl;
+    cout << "0.0 * INFINITY         = " << 0.0 * INFINITY << endl;
+    cout << "0.0 / 0.0              = " << 0.0 / 0.0 << endl;
+    cout << "INFINITY / INFINITY    = " << INFINITY / INFINITY << endl;
+    cout << "sqrt(-1.0)             = " << sqrt(-1.0) << endl;
+    /* Infinity */
+    cout << "20^200 * 20^200        = " << pow(20, 200) * pow(20, 200) << endl;
+    cout << "1.0 / 0.0              = " << 1.0 / 0.0 << endl;
+    cout << "INFINITY + 1           = " << INFINITY + 1 << endl;
 
     return 0;
 }
@@ -62,8 +68,7 @@ Type precision()
 {
     Type epsilon = 1.0;
 
-    while ((1.0 + 0.5 * epsilon) != 1.0)
-    {
+    while ((1.0 + 0.5 * epsilon) != 1.0) {
         epsilon *= 0.5;
     }
 
@@ -78,7 +83,7 @@ Type minValue()
 
     while (n > 0.0) {
         previousN = n;
-        n /= 2.0;
+        n *= 0.5;
     }
 
     return previousN;
@@ -89,14 +94,15 @@ Type maxValue()
 {
     Type n = 1.0;
     Type e = 1.0;
+    Type previousN = 0.0;
 
-    while(n + n*e > n)
-    {
-        if (isfinite(n + n*e))
+    while(n > previousN) {
+        if (isfinite(n + (n * e)))
         {
-            n += n*e;
+            previousN = n;
+            n += n * e;
         } else {
-            e /= 2.0;
+            e *= 0.5;
         }
     }
 
