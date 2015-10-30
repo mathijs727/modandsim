@@ -3,13 +3,21 @@
     Date: 30-10-2015
     Course: Modelling & Simulating
     Assignment: week 1 part 3
+    
+    In this assignment we  will approximate sqrt(2) by finding the root of the 
+    function f(x) = x ^ 2 - 2. This root is approximated using the bisection
+    algorithm.
 """
 
 from math import sqrt
 
-def find_root_bisection(function, interval, maximum_error=0.000001):
+""" This function approximates the root of a given function on a given
+    interval. Since the perfect value x for which f(x) = 0 might not be 
+    possible to find, we will search for a value x so that f(x) becomes
+    close to zero. """
+def find_root_bisection(function, interval, maximum_error=0.000001, maximum_iterations=1000):
 
-    while True:
+    for _ in xrange(maximum_iterations):
     
         center = 0.5 * (interval[0] + interval[1])
         value_at_center = function(center)
@@ -20,8 +28,6 @@ def find_root_bisection(function, interval, maximum_error=0.000001):
         if value_at_center < 0:
             interval[0] = center
 
-        """ value_at_center might not become exactly 0. Instead, we check
-            whether it is very close to 0. """
         if abs(value_at_center) < maximum_error:
             return center
         
@@ -29,7 +35,7 @@ def find_root_bisection(function, interval, maximum_error=0.000001):
             
 if __name__ == "__main__":
 
-    f = lambda x: x ** 2 - 2
-
     print "Actual square root of 2 is \t{}".format(sqrt(2))
+        
+    f = lambda x: x ** 2 - 2
     print "Found square root os 2 is \t{}".format(find_root_bisection(f, [1, 2]))
