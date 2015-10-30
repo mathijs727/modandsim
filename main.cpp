@@ -62,9 +62,9 @@ Type precision()
 {
     Type epsilon = 1.0;
 
-    while ((1.0 + 0.5 * epsilon) != 1.0)
+    while (((Type)1.0 + (Type)0.5 * epsilon) != (Type)1.0)
     {
-        epsilon *= 0.5;
+        epsilon *= (Type)0.5;
     }
 
     return epsilon;
@@ -76,9 +76,9 @@ Type minValue()
     Type n = 1.0;
     Type previousN;
 
-    while (n > 0.0) {
+    while (n > (Type)0.0) {
         previousN = n;
-        n /= 2.0;
+        n *= (Type)0.5;
     }
 
     return previousN;
@@ -96,7 +96,7 @@ Type maxValue()
         {
             n += n*e;
         } else {
-            e /= 2.0;
+            e *= (Type)0.5;
         }
     }
 
