@@ -15,13 +15,13 @@ given x using a step size of h
 ( f(x-h/2)+f(x+h/2) ) / h
 """
 def differencing_center(function, x, h):
-	return (function(x + h/2) - function(x - h/2)) / h
+	return (function(x + h) - function(x - h)) / (2 * h)
 
 if __name__ == "__main__":
 	# Values on the x-axe
 	h = np.arange(0.0, 0.5, 0.001)
 
-	# An array of tuples of x values for which we want a graph
+	# An array of tuples of x values for which we want an graph
 	test_inputs = [
 		("pi/3", np.pi/3),
 		("100pi + pi/3", 100*np.pi + np.pi/3),
