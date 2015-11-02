@@ -7,15 +7,13 @@ Determine where the function becomes using the Newton Raphson method. This
 function takes the function we want to look at, a differencing function to
 determine the derivative and a x from which we start searching
 """
-def newton_raphson(function, derivative, start):
-	# h is the delta x for determining the derivative using differencing
-	h = 0.01
+def newton_raphson(function, derivative, start, maximum_error = 0.00001,
+                   derivative_step_size = 0.0001):
 	x = start
-	precision = 0.001
 
 	# While precision > f(x) > precision
-	while abs(function(x)) > precision:
-		x -= function(x)/derivative(function, x, h)
+	while abs(function(x)) > maximum_error:
+		x -= function(x)/derivative(function, x, derivative_step_size)
 
 	return x
 
@@ -51,17 +49,14 @@ polynom should be given as an array:
 Please supply a starting position from which to start looking. The derivative
 is determined analytically.
 """
-def newton_raphson_polynom(polynom, start):
-	# h is the delta x for determining the derivative using differencing
-	h = 0.01
+def newton_raphson_polynom(polynom, start, maximum_error = 0.00001):
 	x = start
-	precision = 0.001
 
 	# Determine the derivative polynom
 	derivative = polynom_derivative(polynom)
 
 	# While precision > f(x) > precision
-	while abs(polynom_value(polynom, x)) > precision:
+	while abs(polynom_value(polynom, x)) > maximum_error:
 		x -= polynom_value(polynom, x)/polynom_value(derivative, x)
 
 	return x
