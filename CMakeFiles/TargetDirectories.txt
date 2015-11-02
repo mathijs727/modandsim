@@ -1,2 +1,0 @@
-/home/peter/Desktop/Modelleren & Simuleren/Opgaven 1/CMakeFiles/assignment1.dir
-/home/peter/Desktop/Modelleren & Simuleren/Opgaven 1/CMakeFiles/assignment1c.dir
