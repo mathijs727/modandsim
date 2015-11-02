@@ -1,3 +1,10 @@
+/* 
+ * Names:   Peter Verkade & Mathijs Molenaar
+ * Date:    02-11-2015
+ * Course:  Modelling & Simulating
+ * Assignment: week 1 part 1c
+ */
+ 
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -107,17 +114,20 @@ addReverseDouble(int from, int to)
     return sum;
 }
 
-// https://en.wikipedia.org/wiki/Kahan_summation_algorithm
+/* The kahan summation algorithm based on 
+ * https://en.wikipedia.org/wiki/Kahan_summation_algorithm */
 template<typename Type>
 Type kahanSum(int from, int to) {
     Type sum = 0.0;
-    Type c = 0.0;                  // A running compensation for lost low-order bits.
+    Type c = 0.0;
+    
     for (int i = from; i < to; i++) {
-        Type y = (1.0 / i) - c;     // So far, so good: c is zero.
-        Type t = sum + y;          // Alas, sum is big, y small, so low-order digits of y are lost.
-        c = (t - sum) - y;         // (t - sum) recovers the high-order part of y; subtracting y recovers -(low part of y)
-        sum = t;                   // Algebraically, c should always be zero. Beware overly-aggressive optimizing compilers!
-        // Next time around, the lost low part will be added to y in a fresh attempt.
+        /* Add the compensation to the next number. */
+        Type y = (1.0 / i) - c;
+        Type t = sum + y;
+        /* Calculate the compensation for the next iteration. */
+        c = (t - sum) - y;
+        sum = t;
     }
 
     return sum;
