@@ -10,8 +10,11 @@
 """
 
 from math import sqrt
+import matplotlib.pyplot as plt
 
 
+""" Pyhton does not provide a built-in sign function. The edge case of sign(0)
+    is not relevant in this program. """
 def sign(x):
     if x > 0:
         return +1
@@ -22,14 +25,22 @@ def sign(x):
     interval. Since the perfect value x for which f(x) = 0 might not be 
     possible to find, we will search for a value x so that f(x) becomes
     close to zero. """
-def find_root_bisection(function, interval, maximum_error=0.000001, maximum_iterations=1000):
+def find_root_bisection(function, interval, maximum_error=0.000001, 
+                        maximum_iterations=1000, plot=False, actual=0.0):
+
+    errors = []
 
     for _ in xrange(maximum_iterations):
     
         center = 0.5 * (interval[0] + interval[1])
         value_at_center = function(center)
 
+        """ Store the current error for possible plotting. """
+        errors.append(abs(center - actual))
+
         if abs(value_at_center) < maximum_error:
+            if plot:
+                plot_error(errors)
             return center
                
         """ If the interval is a single point, which does not result in a proper
@@ -49,10 +60,19 @@ def find_root_bisection(function, interval, maximum_error=0.000001, maximum_iter
         
     return None
 
+
+def plot_error(error):
+    plt.title("Error over time")
+    plt.xlabel("iterations")
+    plt.ylabel("error")
+    plt.grid(True)
+    plt.plot(error)
+    plt.show()
+
             
 if __name__ == "__main__":
 
     print "Actual square root of 2 is \t{}".format(sqrt(2))
         
     f = lambda x: x ** 2 - 2
-    print "Found  square root of 2 is \t{}".format(find_root_bisection(f, [1, 2]))
+    print "Found  square root of 2 is \t{}".format(find_root_bisection(f, [1, 2], plot=True, actual=sqrt(2)))
