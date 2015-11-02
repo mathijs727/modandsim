@@ -140,7 +140,7 @@ main(int argc, char* argv[])
     int to = 1000;
     int i;
     int j;
-    double sum[6];
+    double sum[8];
     if (argc > 1)
     {
         from = atoi(argv[1]);
@@ -170,9 +170,9 @@ main(int argc, char* argv[])
     printf("Kahan summation with doubles: %g\n",
            sum[7] =kahanSum<double>(from, to));
     printf("Differences between results in a matrix:\n");
-    for (i = 0; i< 8; i++)
+    for (i = 0; i < 8; i++)
     {
-        for (j = 0; j< 8; j++)
+        for (j = 0; j < 8; j++)
         {
             printf("%12.5g\t", sum[i] - sum[j]);
         }
