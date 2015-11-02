@@ -113,7 +113,7 @@ Type kahanSum(int from, int to) {
     Type sum = 0.0;
     Type c = 0.0;                  // A running compensation for lost low-order bits.
     for (int i = from; i < to; i++) {
-        Type y = (1.0 / i) - c;     // So far, so good: c is zero.
+        Type y = (1.0 / i) - c;    // So far, so good: c is zero.
         Type t = sum + y;          // Alas, sum is big, y small, so low-order digits of y are lost.
         c = (t - sum) - y;         // (t - sum) recovers the high-order part of y; subtracting y recovers -(low part of y)
         sum = t;                   // Algebraically, c should always be zero. Beware overly-aggressive optimizing compilers!
@@ -130,7 +130,7 @@ main(int argc, char* argv[])
     int to = 1000;
     int i;
     int j;
-    double sum[6];
+    double sum[8];
     if (argc > 1)
     {
         from = atoi(argv[1]);
@@ -160,9 +160,9 @@ main(int argc, char* argv[])
     printf("Kahan summation with doubles: %g\n",
            sum[7] =kahanSum<double>(from, to));
     printf("Differences between results in a matrix:\n");
-    for (i = 0; i< 8; i++)
+    for (i = 0; i < 8; i++)
     {
-        for (j = 0; j< 8; j++)
+        for (j = 0; j < 8; j++)
         {
             printf("%12.5g\t", sum[i] - sum[j]);
         }
