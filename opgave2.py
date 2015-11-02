@@ -1,6 +1,6 @@
 """
     Names:  Peter Verkade & Mathijs Molenaar
-    Date:   30-10-2015
+    Date:   02-11-2015
     Course: Modelling & Simulating
     Assignment: week 1 part 2
     
@@ -32,7 +32,7 @@ def differencing_center(function, x, h):
 
 if __name__ == "__main__":
 	# Values on the x-axis
-	h = np.arange(0.0, 0.5, 0.001)
+	h = np.arange(0.001, 0.5, 0.001)
 
 	# An array of tuples of x values for which we want to plot a graph
 	test_inputs = [

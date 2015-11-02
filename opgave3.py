@@ -1,6 +1,6 @@
 """
-    Names: Peter Verkade & Mathijs Molenaar
-    Date: 30-10-2015
+    Names:  Peter Verkade & Mathijs Molenaar
+    Date:   02-11-2015
     Course: Modelling & Simulating
     Assignment: week 1 part 3
     
