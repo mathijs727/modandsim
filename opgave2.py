@@ -52,7 +52,7 @@ if __name__ == "__main__":
 		right, = plt.plot(h, abs(np.cos(x) - differencing_right(np.sin, x, h)))
 		center, = plt.plot(h, abs(np.cos(x) - differencing_center(np.sin, x, h)))
 
-		# Make the x-axis descending by reversing it
+		# Make the x-axis descending by reversing the x-axis
 		ax = plt.gca()
 		ax.set_xlim(ax.get_xlim()[::-1])
 		ax.legend((right, center), ("Right", "Center"), loc="upper right")

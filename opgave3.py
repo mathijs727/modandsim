@@ -32,12 +32,16 @@ def find_root_bisection(function, interval, maximum_error=0.000001,
 
     for _ in xrange(maximum_iterations):
     
+        """ The center is the middle of the current interval. """
         center = 0.5 * (interval[0] + interval[1])
         value_at_center = function(center)
 
         """ Store the current error for possible plotting. """
         errors.append(abs(center - actual))
 
+
+        """ If the value of the current center is very close to zero, that is 
+            also good enough. """
         if abs(value_at_center) < maximum_error:
             if plot:
                 plot_error(errors)
