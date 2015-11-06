@@ -15,14 +15,17 @@ function requires a function to analyze, a differencing function to
 determine the derivative and a value x to start the search from.
 """
 def newton_raphson(function, derivative, start, maximum_error = 0.000001,
-                   derivative_step_size = 0.000001):
+                   derivative_step_size = 0.00001):
 	x = start
+	error = []
 
 	""" Loop untill function(x) is very close to 0. """
 	while abs(function(x)) > maximum_error:
 		""" Apply the Newton-Raphson iteration rule on x. """
 		x -= function(x)/derivative(function, x, derivative_step_size)
+		error.append(abs(function(x)))
 
+	plot_error(error)
 	return x
 
 """
@@ -61,6 +64,7 @@ The starting position must be provided.
 """
 def newton_raphson_polynom(polynom, start, maximum_error = 0.000001):
 	x = start
+	error = []
 
 	""" Determine the derivative polynom. """
 	derivative = polynom_derivative(polynom)
@@ -68,8 +72,19 @@ def newton_raphson_polynom(polynom, start, maximum_error = 0.000001):
 	""" Loop until Polynom(x) is very close to zero. """
 	while abs(polynom_value(polynom, x)) > maximum_error:
 		x -= polynom_value(polynom, x) / polynom_value(derivative, x)
+		error.append(abs(polynom_value(polynom, x)))
+
+	plot_error(error)
 
 	return x
+
+def plot_error(error):
+	plt.title("Error over time")
+	plt.xlabel("iterations")
+	plt.ylabel("error")
+	plt.grid(True)
+	plt.plot(error)
+	plt.show()
 
 if __name__ == "__main__":
 	start = 2
