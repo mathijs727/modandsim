@@ -66,11 +66,13 @@ def find_root_bisection(function, interval, maximum_error=0.000001,
 
 
 def plot_error(error):
-    plt.title("Error over time")
+    plt.title("Error over iterations")
     plt.xlabel("iterations")
     plt.ylabel("error")
     plt.grid(True)
     plt.plot(error)
+    ax = plt.gca()
+    ax.set_yscale("log")
     plt.show()
 
             

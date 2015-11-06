@@ -79,11 +79,13 @@ def newton_raphson_polynom(polynom, start, maximum_error = 0.000001):
 	return x
 
 def plot_error(error):
-	plt.title("Error over time")
+	plt.title("Error over iterations")
 	plt.xlabel("iterations")
 	plt.ylabel("error")
 	plt.grid(True)
 	plt.plot(error)
+	ax = plt.gca()
+	ax.set_yscale("log")
 	plt.show()
 
 if __name__ == "__main__":
