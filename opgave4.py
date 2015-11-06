@@ -20,7 +20,7 @@ def newton_raphson(function, derivative, start, maximum_error = 0.000001,
 
 	""" Loop untill function(x) is very close to 0. """
 	while abs(function(x)) > maximum_error:
-	    """ Apply the Newton-Raphson iteration rule on x. """
+		""" Apply the Newton-Raphson iteration rule on x. """
 		x -= function(x)/derivative(function, x, derivative_step_size)
 
 	return x
@@ -44,8 +44,8 @@ This functions returns the polynom that is the derivative of a given polynom.
 def polynom_derivative(polynom):
 	result = []
 
-    """ All coefficients are multiplied by their index and moved one place to 
-    the left. """
+	""" All coefficients are multiplied by their index and moved one place to 
+	the left. """
 	for i in xrange(1, len(polynom)):
 		coefficient = polynom[i]
 		result.append(i * coefficient)
