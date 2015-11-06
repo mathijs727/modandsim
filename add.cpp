@@ -133,6 +133,32 @@ Type kahanSum(int from, int to) {
     return sum;
 }
 
+template<typename Type>
+void testMaximumIndex(Type (*function)(int, int), const char* functionName)
+{
+    Type prevSum = 0.0;
+    unsigned long index = 0;
+    int deltaIndex = 10000000;
+    while (true)
+    {
+        Type sum = function(1, index + deltaIndex);
+        if (sum == prevSum)
+        {
+            if (deltaIndex == 1)
+            {
+                std::cout << "Maximum index for " << functionName << ": " << index << std::endl;
+                break;
+            } else {
+                index -= deltaIndex;
+                deltaIndex /= 10;
+            }
+        } else {
+            index += deltaIndex;
+            prevSum = sum;
+        }
+    }
+}
+
 int
 main(int argc, char* argv[])
 {
@@ -151,6 +177,12 @@ main(int argc, char* argv[])
         if (from < 1) from = 1;
         if (to < from) to = from + 100;
     }
+
+    testMaximumIndex<float>(addForward, "Add forward");
+    testMaximumIndex<float>(addReverse, "Add reverse");
+
+    std::cout << std::endl;
+
     printf("The sum of the series 1/i, with i running from %d to %d is\n",
             from, to);
     printf("Forward summation with floats: %g\n",

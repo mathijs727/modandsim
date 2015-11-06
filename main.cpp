@@ -62,12 +62,21 @@ int main() {
     cout << "0.0 / 0.0              = " << 0.0 / 0.0 << endl;
     cout << "INFINITY / INFINITY    = " << INFINITY / INFINITY << endl;
     cout << "sqrt(-1.0)             = " << sqrt(-1.0) << endl;
+    cout << "arcos(2.0)             = " << acos(2.0) << endl;
+    cout << "log10(-1.0)            = " << log10(-1.0) << endl;
+    cout << "sqrt(-1.0)             = " << sqrt(-1.0) << endl;
+    cout << "fmod(123.0, 0.0)       = " << fmod(123.0, 0.0) << endl;
+
     /* These expressions result in Infinity. */
-    cout << "20^200 * 20^200        = " << pow(20, 200) * pow(20, 200) << endl;
+    cout << "\n20^200 * 20^200        = " << pow(20, 200) * pow(20, 200) << endl;
     cout << "1.0 / 0.0              = " << 1.0 / 0.0 << endl;
     cout << "INFINITY + 1           = " << INFINITY + 1 << endl;
+    cout << "log10(0.0)             = " << log10(0.0) << endl;
+
+
     /* This expressions result in -0. */
-    cout << "0.0 / -1.0             = " << 0.0 / -1.0 << endl;
+    cout << "\n0.0 / -1.0             = " << 0.0 / -1.0 << endl;
+    cout << "-1.0 / INFINITY        = " << -1.0 / INFINITY << endl;
 
     return 0;
 }

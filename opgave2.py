@@ -39,7 +39,7 @@ def differencing_fivepoint(function, x, h):
 
 if __name__ == "__main__":
 	# Values on the x-axis
-	h = np.arange(0.001, 0.5, 0.001)
+	h = np.logspace(-10, 0, 10000, base=10)
 
 	# An array of tuples of x values for which we want to plot a graph
 	test_inputs = [
@@ -62,7 +62,8 @@ if __name__ == "__main__":
 
 		# Make the x-axis descending by reversing the x-axis
 		ax = plt.gca()
-		ax.set_xlim(ax.get_xlim()[::-1])
 		ax.set_yscale("log")
-		ax.legend((right, center), ("Right", "Center", "Fivepoint"), loc="lower left")
+		ax.set_xscale("log")
+		ax.set_xlim(ax.get_xlim()[::-1])
+		ax.legend((right, center, fivepoint), ("Right", "Center", "Fivepoint"), loc="lower left")
 		plt.show()
