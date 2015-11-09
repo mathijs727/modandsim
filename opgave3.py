@@ -70,7 +70,7 @@ def plot_error(error, interval):
     plt.xlabel("iterations")
     plt.ylabel("error")
     plt.grid(True)
-    plt.plot(range(error)
+    plt.plot(error)
     ax = plt.gca()
     ax.set_yscale("log")
     plt.show()
