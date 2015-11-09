@@ -56,9 +56,9 @@ if __name__ == "__main__":
 
 		# Plot the error as the absolute value of cos(x) - num_differentiation(x)
 		# Note that cos(x) is the derivative of sin(x)
-		right, = plt.plot(h, abs(np.cos(x) - differencing_right(np.sin, x, h)))
-		center, = plt.plot(h, abs(np.cos(x) - differencing_center(np.sin, x, h)))
-		fivepoint, = plt.plot(h, abs(np.cos(x) - differencing_fivepoint(np.sin, x, h)))
+		right, = plt.plot(h, abs(np.cos(x) - differencing_right(np.sin, x, h)), alpha=0.5)
+		center, = plt.plot(h, abs(np.cos(x) - differencing_center(np.sin, x, h)), alpha=0.5)
+		fivepoint, = plt.plot(h, abs(np.cos(x) - differencing_fivepoint(np.sin, x, h)), alpha=0.5)
 
 		# Make the x-axis descending by reversing the x-axis
 		ax = plt.gca()

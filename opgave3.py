@@ -28,6 +28,7 @@ def sign(x):
 def find_root_bisection(function, interval, maximum_error=0.000001, 
                         maximum_iterations=1000, plot=False, actual=0.0):
 
+    start_interval = [interval[0], interval[1]]
     errors = []
 
     for _ in xrange(maximum_iterations):
@@ -39,12 +40,11 @@ def find_root_bisection(function, interval, maximum_error=0.000001,
         """ Store the current error for possible plotting. """
         errors.append(abs(center - actual))
 
-
         """ If the value of the current center is very close to zero, that is 
             also good enough. """
         if abs(value_at_center) < maximum_error:
             if plot:
-                plot_error(errors)
+                plot_error(errors, start_interval)
             return center
                
         """ If the interval is a single point, which does not result in a proper
@@ -65,8 +65,8 @@ def find_root_bisection(function, interval, maximum_error=0.000001,
     return None
 
 
-def plot_error(error):
-    plt.title("Error over iterations")
+def plot_error(error, interval):
+    plt.title("Error over iterations, starting with interval {}".format(interval))
     plt.xlabel("iterations")
     plt.ylabel("error")
     plt.grid(True)
@@ -81,4 +81,6 @@ if __name__ == "__main__":
     print "Actual square root of 2 is \t{}".format(sqrt(2))
         
     f = lambda x: x ** 2 - 2
-    print "Found  square root of 2 is \t{}".format(find_root_bisection(f, [1, 2], plot=True, actual=sqrt(2)))
+    print "Found  square root of 2 is \t{} for interval [1, 2]".format(find_root_bisection(f, [1, 2], plot=True, actual=sqrt(2)))
+    print "Found  square root of 2 is \t{} for interval [0, 10]".format(find_root_bisection(f, [0, 10], plot=True, actual=sqrt(2)))
+    print "Found  square root of 2 is \t{} for interval [0, 100]".format(find_root_bisection(f, [0, 100], plot=True, actual=sqrt(2)))
