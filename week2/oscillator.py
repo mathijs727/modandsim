@@ -39,7 +39,8 @@ if __name__ == "__main__":
     
     f = lambda t, y: np.array([y[1], -k * y[0]]) # s' = v, -v' = -k * s
     
-    """ This oscilation has a period T equal to 2 * pi. """
+    """ This oscilation has a period T equal to (2 * pi) / omega where omega is 
+        sqrt(k). For this k and starting values, s(t) = cos(t) """
     period = (2 * np.pi) / np.sqrt(k)
     stepsize = 0.1 * period
     n_periods = 10
