@@ -23,6 +23,7 @@ def rungekutta2(y0, t0, t1, f, stepsize):
 
     while t < t1:
         An = f(t, y)
+        
         y_approx = y + stepsize * An
         Bn = f(t + stepsize, y_approx)
     
