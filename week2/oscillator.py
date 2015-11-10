@@ -52,6 +52,8 @@ if __name__ == "__main__":
     results_rungekutta2 = [rungekutta2(start.copy(), 0, t, f, stepsize)[0] for t in time]
     results_rungekutta4 = [rungekutta4(start.copy(), 0, t, f, stepsize)[0] for t in time]
     
+    """ Plot values """
+    
     a, = plt.plot(time, results_euler)
     b, = plt.plot(time, results_rungekutta2)
     c, = plt.plot(time, results_rungekutta4)
@@ -60,11 +62,21 @@ if __name__ == "__main__":
     ax.legend((a, b, c), ("Euler method", "Runge-Kutta 2", "Runge-Kutta 4"), loc="lower left")
     plt.show()
     
-    # TODO plot errors
+    """ Calculate errors """
     
-    error_euler = np.abs(np.cos(time) - results_euler)
-    plt.plot(time, error_euler)
+    actual = np.cos(time)
+    error_euler = np.abs(actual - results_euler)
+    error_rungekutta2 = np.abs(actual - results_rungekutta2)
+    error_rungekutta4 = np.abs(actual - results_rungekutta4)
+    
+    """ Plot error """
+    
+    a, = plt.plot(time, error_euler)
+    b, = plt.plot(time, error_rungekutta2)
+    c, = plt.plot(time, error_rungekutta4)
+    
     ax = plt.gca()
+    ax.legend((a, b, c), ("Euler method", "Runge-Kutta 2", "Runge-Kutta 4"), loc="upper left")
     ax.set_yscale("log")
     plt.show()
      
