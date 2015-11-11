@@ -36,48 +36,68 @@ if __name__ == "__main__":
     
     start = np.array([1.0, 0.0]) # s, v
     k = 1.0
-    
     f = lambda t, y: np.array([y[1], -k * y[0]]) # s' = v, -v' = -k * s
     
-    """ This oscilation has a period T equal to (2 * pi) / omega where omega is 
-        sqrt(k). For this k and starting values, s(t) = cos(t) """
-    period = (2 * np.pi) / np.sqrt(k)
-    stepsize = 0.1 * period
-    n_periods = 10
-    time = np.arange(0, n_periods * period + stepsize, stepsize)
+    for stepsize_fraction in [0.1, 0.05]:
     
-    """ We only want the position s at each time step, which is the first 
-        element of the result. """
-    results_euler       = [      euler(start.copy(), 0, t, f, stepsize)[0] for t in time]
-    results_rungekutta2 = [rungekutta2(start.copy(), 0, t, f, stepsize)[0] for t in time]
-    results_rungekutta4 = [rungekutta4(start.copy(), 0, t, f, stepsize)[0] for t in time]
-    
-    """ Plot values """
-    
-    a, = plt.plot(time, results_euler)
-    b, = plt.plot(time, results_rungekutta2)
-    c, = plt.plot(time, results_rungekutta4)
-    
-    ax = plt.gca()
-    ax.legend((a, b, c), ("Euler method", "Runge-Kutta 2", "Runge-Kutta 4"), loc="lower left")
-    plt.show()
-    
-    """ Calculate errors """
-    
-    actual = np.cos(time)
-    error_euler = np.abs(actual - results_euler)
-    error_rungekutta2 = np.abs(actual - results_rungekutta2)
-    error_rungekutta4 = np.abs(actual - results_rungekutta4)
-    
-    """ Plot error """
-    
-    a, = plt.plot(time, error_euler)
-    b, = plt.plot(time, error_rungekutta2)
-    c, = plt.plot(time, error_rungekutta4)
-    
-    ax = plt.gca()
-    ax.legend((a, b, c), ("Euler method", "Runge-Kutta 2", "Runge-Kutta 4"), loc="upper left")
-    ax.set_yscale("log")
-    plt.show()
-     
-    
+        """ This oscilation has a period T equal to (2 * pi) / omega where omega is 
+            sqrt(k). For this k and starting values, s(t) = cos(t) """
+        period = (2 * np.pi) / np.sqrt(k)
+        stepsize = stepsize_fraction * period
+        n_periods = 10
+        time = np.arange(0, n_periods * period + stepsize, stepsize)
+        
+        """ Calculate values s(t) """
+        
+        results_euler       = [      euler(start.copy(), 0, t, f, stepsize)[0] for t in time]
+        results_rungekutta2 = [rungekutta2(start.copy(), 0, t, f, stepsize)[0] for t in time]
+        results_rungekutta4 = [rungekutta4(start.copy(), 0, t, f, stepsize)[0] for t in time]
+        
+        """ Plot values """
+        
+        a, = plt.plot(time, results_euler, color="blue")
+        b, = plt.plot(time, results_rungekutta2, color="red")
+        c, = plt.plot(time, results_rungekutta4, color="green")
+        
+        ax = plt.gca()
+        ax.legend((a, b, c), ("Euler method", "Runge-Kutta 2", "Runge-Kutta 4"), loc="lower left")
+        ax.set_title("position over time")
+        ax.set_xlabel("t")
+        ax.set_ylabel("s(t)")
+        plt.show()
+        
+        """ Calculate errors """
+        
+        actual = np.cos(time)
+        error_euler = np.abs(actual - results_euler)
+        error_rungekutta2 = np.abs(actual - results_rungekutta2)
+        error_rungekutta4 = np.abs(actual - results_rungekutta4)
+        
+        """ Plot error """
+        
+        a, = plt.plot(time, error_euler, color="blue")
+        b, = plt.plot(time, error_rungekutta2, color="red")
+        c, = plt.plot(time, error_rungekutta4, color="green")
+        
+        ax = plt.gca()
+        ax.legend((a, b, c), ("Euler method", "Runge-Kutta 2", "Runge-Kutta 4"), loc="upper left")
+        ax.set_title("error over time")
+        ax.set_xlabel("t")
+        ax.set_ylabel("error")
+        ax.set_yscale("log")
+        plt.show()
+        
+        """ Plot phase space """
+        
+        speed_euler       = [      euler(start.copy(), 0, t, f, stepsize)[1] for t in time]
+        speed_rungekutta2 = [rungekutta2(start.copy(), 0, t, f, stepsize)[1] for t in time]
+        
+        a = plt.scatter(results_euler, speed_euler, color="blue")
+        b = plt.scatter(results_rungekutta2, speed_rungekutta2, color="red")
+        
+        ax = plt.gca()
+        ax.legend((a, b), ("Euler method", "Runge-Kutta 2"), loc="lower right")
+        ax.set_title("phase space")
+        ax.set_xlabel("s(t)")
+        ax.set_ylabel("v(t)")
+        plt.show()   
