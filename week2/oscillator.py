@@ -61,7 +61,7 @@ if __name__ == "__main__":
         
         ax = plt.gca()
         ax.legend((a, b, c), ("Euler method", "Runge-Kutta 2", "Runge-Kutta 4"), loc="lower left")
-        ax.set_title("position over time")
+        ax.set_title("position over time, stepsize {} period".format(stepsize_fraction))
         ax.set_xlabel("t")
         ax.set_ylabel("s(t)")
         plt.show()
@@ -81,7 +81,7 @@ if __name__ == "__main__":
         
         ax = plt.gca()
         ax.legend((a, b, c), ("Euler method", "Runge-Kutta 2", "Runge-Kutta 4"), loc="upper left")
-        ax.set_title("error over time")
+        ax.set_title("error over time, stepsize {} period".format(stepsize_fraction))
         ax.set_xlabel("t")
         ax.set_ylabel("error")
         ax.set_yscale("log")
@@ -97,7 +97,7 @@ if __name__ == "__main__":
         
         ax = plt.gca()
         ax.legend((a, b), ("Euler method", "Runge-Kutta 2"), loc="lower right")
-        ax.set_title("phase space")
+        ax.set_title("phase space, stepsize {} period".format(stepsize_fraction))
         ax.set_xlabel("s(t)")
         ax.set_ylabel("v(t)")
         plt.show()   
