@@ -1,6 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
+
 def euler(y0, t0, t1, f, stepsize):
 
     y = y0
@@ -61,10 +62,29 @@ def rungekutta4(y0, t0, t1, f, stepsize):
 
     return y
 
+
+def solve_for_list(start, times, f, integration_method=None):
     
+    if integration_method is None:
+        integration_method = rungekutta4
+    
+    y = start.copy()
+    results = []
+    
+    previous_time = 0.0
+    
+    for time in times:
+        stepsize = time - previous_time
+        integration_method(y, previous_time, time, f, stepsize)
+        results.append(y.copy())
+        previous_time = time
+        
+    return results
+    
+        
 if __name__ == "__main__":
     
-    
+    """
     f = lambda t, y: 1
     print "--++{ dy/dt = 1 }++--"
     print euler(0, 0, 10, f, 0.125)
@@ -95,7 +115,6 @@ if __name__ == "__main__":
     print rungekutta2(1, 1, 10, f, 0.125)
     print rungekutta4(1, 1, 10, f, 0.125)
     
-    """
     f = lambda t, y : y + 2
     results = [euler(2, 0, t, f, 0.125) for t in np.arange(0, 10.1, 0.1)]
     plt.plot(np.arange(0, 10.1, 0.1), results)
@@ -104,4 +123,5 @@ if __name__ == "__main__":
     ax.set_yscale("log")
     plt.show()
     """
-    
+    pass
+     

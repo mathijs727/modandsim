@@ -49,9 +49,9 @@ if __name__ == "__main__":
         
         """ Calculate values s(t) """
         
-        results_euler       = [      euler(start.copy(), 0, t, f, stepsize)[0] for t in time]
-        results_rungekutta2 = [rungekutta2(start.copy(), 0, t, f, stepsize)[0] for t in time]
-        results_rungekutta4 = [rungekutta4(start.copy(), 0, t, f, stepsize)[0] for t in time]
+        results_euler       = [s[0] for s in solve_for_list(start, time, f, integration_method=euler)] 
+        results_rungekutta2 = [s[0] for s in solve_for_list(start, time, f, integration_method=rungekutta2)] 
+        results_rungekutta4 = [s[0] for s in solve_for_list(start, time, f, integration_method=rungekutta4)] 
         
         """ Plot values """
         
@@ -89,8 +89,8 @@ if __name__ == "__main__":
         
         """ Plot phase space """
         
-        speed_euler       = [      euler(start.copy(), 0, t, f, stepsize)[1] for t in time]
-        speed_rungekutta2 = [rungekutta2(start.copy(), 0, t, f, stepsize)[1] for t in time]
+        speed_euler       = [s[1] for s in solve_for_list(start, time, f, integration_method=euler)] 
+        speed_rungekutta2 = [s[1] for s in solve_for_list(start, time, f, integration_method=rungekutta2)] 
         
         a = plt.scatter(results_euler, speed_euler, color="blue")
         b = plt.scatter(results_rungekutta2, speed_rungekutta2, color="red")
