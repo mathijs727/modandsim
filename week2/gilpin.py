@@ -5,33 +5,32 @@ from differential_solvers import *
 
 if __name__ == "__main__":
     
-    start = np.array([30., 50.]) # x, y
-    
-    a = 0.5
-    b = 1.0
-    c = 0.1
-    d = 0.1
+    start = np.array([10., 10., 10.]) # x, y
     
     f = lambda time, state: np.array([
-        - a * state[0] + c * d * state[0] * state[1], 
-        + b * state[1]     - d * state[0] * state[1]
+        state[0] * (1 - 0.001 * state[0] - 0.001 * state[1] - 0.01 * state[2]),
+        
+        state[1] * (1 - 0.001 * state[1] - 0.0015 * state[0] - 0.001 * state[2]),
+        state[2] * (0.005 * state[0] + 0.0005 * state[1] - 1)
     ])
     
     stepsize = 0.25
-    time = np.arange(0, 100, stepsize)
+    time = np.arange(0, 1000, stepsize)
     
     results = solve_for_list(start, time, f)
     
     results_x = [r[0] for r in results]
     results_y = [r[1] for r in results]
+    results_z = [r[2] for r in results]
     
     x, = plt.plot(time, results_x, color="red")
     y, = plt.plot(time, results_y, color="green")
+    z, = plt.plot(time, results_z, color="blue")
     
     ax = plt.gca()
-    ax.legend((x, y), ("x", "y"), loc="upper left")
+    ax.legend((x, y, z), ("x", "y", "z"), loc="upper left")
     ax.set_title("time")
     ax.set_xlabel("t")
-    ax.set_ylabel("x(t) and y(t)")
+    ax.set_ylabel("x(t), y(t) and z(t)")
     
     plt.show()
