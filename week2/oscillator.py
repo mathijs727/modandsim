@@ -12,9 +12,9 @@ from differential_solvers import *
     
     s''(t) = -k * s(t)
     
-    the second order derivative has: a minus 1 and a factor k 
-        the minus 1 reminds us of the sine and cosine
-        the k must mean s(t) has the form f(sqrt(k) * t) 
+    the second order derivative has:
+        a -1, whichs reminds us of the sine and cosine
+        a factor k, which must mean s(t) has the form f(sqrt(k) * t) 
     
     the solution becomes clear 
     
@@ -24,11 +24,15 @@ from differential_solvers import *
     
     s(t) = cos(t * sqrt(k))
 
-    Note that sin(t + 0.5 * pi) = cos(t)
+    Note: sin(t + 0.5 * pi) = cos(t)
     
+    any phase will work
     the analytical solution is therefore:
     
-    s(t) = sin(sqrt(k) * t + phi) where phi is determined by the initial condition
+    s(t) = a * sin(sqrt(k) * t + phi) 
+    
+    where a is the amplitude and phi is the phase, both determined by the 
+    initial condition
     
 """
 
@@ -36,12 +40,16 @@ if __name__ == "__main__":
     
     start = np.array([1.0, 0.0]) # s, v
     k = 1.0
-    f = lambda t, y: np.array([y[1], -k * y[0]]) # s' = v, -v' = -k * s
+    
+    f = lambda t, y: np.array([y[1], -k * y[0]]) # s' = v, v' = -k * s
     
     for stepsize_fraction in [0.1, 0.05]:
     
-        """ This oscilation has a period T equal to (2 * pi) / omega where omega is 
-            sqrt(k). For this k and starting values, s(t) = cos(t) """
+        """ This oscilation has a period T equal to (2 * pi) / omega where 
+            omega is sqrt(k). 
+            
+            For this k and starting values, s(t) = cos(t) """
+        
         period = (2 * np.pi) / np.sqrt(k)
         stepsize = stepsize_fraction * period
         n_periods = 10
