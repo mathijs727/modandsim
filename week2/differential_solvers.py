@@ -75,7 +75,7 @@ def solve_for_list(start, times, f, integration_method=None):
     
     for time in times:
         stepsize = time - previous_time
-        integration_method(y, previous_time, time, f, stepsize)
+        y = integration_method(y, previous_time, time, f, stepsize)
         results.append(y.copy())
         previous_time = time
         
@@ -83,8 +83,6 @@ def solve_for_list(start, times, f, integration_method=None):
     
         
 if __name__ == "__main__":
-    
-    """
     f = lambda t, y: 1
     print "--++{ dy/dt = 1 }++--"
     print euler(0, 0, 10, f, 0.125)
@@ -122,6 +120,4 @@ if __name__ == "__main__":
     ax = plt.gca()
     ax.set_yscale("log")
     plt.show()
-    """
-    pass
      
