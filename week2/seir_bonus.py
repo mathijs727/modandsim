@@ -9,10 +9,10 @@ spread_rate = 50 * 0.04
 incubation_rate = 1.0 / 2
 recovery_rate = 1.0 / 3
 
-# https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SEIR_model
 def SEIR(time, state):
 	total = np.sum(state)
 	
+	# Current values of the SEIR model
 	S = state[0]
 	E1 = state[1]
 	E2 = state[2]
@@ -26,6 +26,8 @@ def SEIR(time, state):
 
 	SE1 = spread_rate * (I / total) * S
 
+	# The derivative of the values according to the SEIR model as on:
+	# https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SEIR_model
 	return np.array([
 		birthrate * total - deathrate * S - SE1,
 		SE1 - incubation_rate * E1 - deathrate * E1,
@@ -40,7 +42,7 @@ def SEIR(time, state):
 if __name__ == "__main__":
 	stepsize = 0.25
 
-	# Susceptible, Exposed, Infected, Recovered
+	# Susceptible, Exposed 1, Exposed 2, Exposed 3, Infected 1, Infected 2, Infected 3, Recovered
 	start = np.array([999.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
 	time = np.arange(0, 100, stepsize)
 

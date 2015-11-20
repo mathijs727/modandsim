@@ -13,6 +13,7 @@ recovery_rate = 1.0 / 9
 def SEIR(time, state):
 	total = np.sum(state)
 	
+	# Current values of the SEIR model
 	S = state[0]
 	E = state[1]
 	I = state[2]
@@ -22,6 +23,8 @@ def SEIR(time, state):
 	EI = incubation_rate * E
 	IR = recovery_rate * I
 
+	# The derivative of the values according to the SEIR model as on:
+	# https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology#The_SEIR_model
 	return np.array([
 		birthrate * total - deathrate * S - SE,
 		SE - EI - deathrate * E,
