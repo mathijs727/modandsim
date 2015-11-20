@@ -75,7 +75,7 @@ def solve_for_list(start, times, f, integration_method=None):
     
     for time in times:
         stepsize = time - previous_time
-        integration_method(y, previous_time, time, f, stepsize)
+        y = integration_method(y, previous_time, time, f, stepsize)
         results.append(y.copy())
         previous_time = time
         
