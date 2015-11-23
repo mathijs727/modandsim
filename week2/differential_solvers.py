@@ -10,9 +10,6 @@ def euler(y0, t0, t1, f, stepsize):
     while t < t1:
         y += stepsize * f(t, y)
         t += stepsize
-       
-    if not np.isfinite(y.all()):
-        return None
 
     return y
     
@@ -30,9 +27,6 @@ def rungekutta2(y0, t0, t1, f, stepsize):
     
         y += stepsize * 0.5 * (An + Bn)
         t += stepsize
-
-    if not np.isfinite(y.all()):
-        return None
 
     return y
     
@@ -56,9 +50,6 @@ def rungekutta4(y0, t0, t1, f, stepsize):
         
         y += stepsize * (k1 + 2 * k2 + 2 * k3 + k4) / 6.0
         t += stepsize
-
-    if not np.isfinite(y.all()):
-        return None
 
     return y
 
@@ -112,12 +103,4 @@ if __name__ == "__main__":
     print euler(1, 1, 10, f, 0.125)
     print rungekutta2(1, 1, 10, f, 0.125)
     print rungekutta4(1, 1, 10, f, 0.125)
-    
-    f = lambda t, y : y + 2
-    results = [euler(2, 0, t, f, 0.125) for t in np.arange(0, 10.1, 0.1)]
-    plt.plot(np.arange(0, 10.1, 0.1), results)
-    
-    ax = plt.gca()
-    ax.set_yscale("log")
-    plt.show()
      
