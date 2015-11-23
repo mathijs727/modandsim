@@ -40,7 +40,7 @@ def SEIR(time, state):
 	])
 
 if __name__ == "__main__":
-	stepsize = 0.25
+	stepsize = 0.05
 
 	# Susceptible, Exposed, Infected, Recovered
 	start = np.array([999.0, 1.0, 0.0, 0.0])
@@ -60,8 +60,8 @@ if __name__ == "__main__":
 
 	ax = plt.gca()
 	ax.legend((s, e, i, r), ("Susceptible", "Exposed", "Infected", "Recovered"), loc="upper left")
-	ax.set_title("time")
+	ax.set_title("SEIR")
 	ax.set_xlabel("t")
-	ax.set_ylabel("x(t), y(t) and z(t)")
+	ax.set_ylabel("Number of people")
 
 	plt.show()

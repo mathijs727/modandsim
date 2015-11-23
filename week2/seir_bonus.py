@@ -40,7 +40,7 @@ def SEIR(time, state):
 	])
 
 if __name__ == "__main__":
-	stepsize = 0.25
+	stepsize = 0.05
 
 	# Susceptible, Exposed 1, Exposed 2, Exposed 3, Infected 1, Infected 2, Infected 3, Recovered
 	start = np.array([999.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
@@ -71,8 +71,8 @@ if __name__ == "__main__":
 		(s, e1, e2, e3, i1, i2, i3, r),
 		("Susceptible", "Exposed 1", "Exposed 2", "Exposed 3", "Infected 1", "Infected 2", "Infected 3", "Recovered"),
 		loc="upper left")
-	ax.set_title("time")
+	ax.set_title("Bonus SEIR")
 	ax.set_xlabel("t")
-	ax.set_ylabel("x(t), y(t) and z(t)")
+	ax.set_ylabel("Number of people")
 
 	plt.show()

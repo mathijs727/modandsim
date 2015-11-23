@@ -92,33 +92,34 @@ def solve_for_list(start, times, f, integration_method=None):
     
         
 if __name__ == "__main__":
+    dt = 0.025
+
     f = lambda t, y: 1
-    print "==== dy/dt = 1 ===="
-    print euler(0, 0, 10, f, 0.125)
-    print rungekutta2(0, 0, 10, f, 0.125)
-    print rungekutta4(0, 0, 10, f, 0.125)
+    print "--++{ dy/dt = 1 }++--"
+    print euler(0, 0, 10, f, dt)
+    print rungekutta2(0, 0, 10, f, dt)
+    print rungekutta4(0, 0, 10, f, dt)
     
     f = lambda t, y: t
-    print "==== dy/dt = t ===="
-    print euler(0, 0, 10, f, 0.125)
-    print rungekutta2(0, 0, 10, f, 0.125)
-    print rungekutta4(0, 0, 10, f, 0.125)
+    print "--++{ dy/dt = t }++--"
+    print euler(0, 0, 10, f, dt)
+    print rungekutta2(0, 0, 10, f, dt)
+    print rungekutta4(0, 0, 10, f, dt)
     
     f = lambda t, y: y
-    print "==== dy/dt = y ===="
-    print euler(1, 0, 5, f, 0.125)
-    print rungekutta2(1, 0, 5, f, 0.125)
-    print rungekutta4(1, 0, 5, f, 0.125)
+    print "--++{ dy/dt = y }++--"
+    print euler(1, 0, 5, f, dt)
+    print rungekutta2(1, 0, 5, f, dt)
+    print rungekutta4(1, 0, 5, f, dt)
     
     f = lambda t, y: y * y
-    print "==== dy/dt = y ** 2 ===="
-    print euler(1, -1, 1, f, 0.125)
-    print rungekutta2(1, -1, 1, f, 0.125)
-    print rungekutta4(1, -1, 1, f, 0.125)
+    print "--++{ dy/dt = y ** 2 }++--"
+    print euler(1, -1, 1, f, dt)
+    print rungekutta2(1, -1, 1, f, dt)
+    print rungekutta4(1, -1, 1, f, dt)
     
     f = lambda t, y: y * y
-    print "==== dy/dt = y ** 2 ===="
-    print euler(1, 1, 10, f, 0.125)
-    print rungekutta2(1, 1, 10, f, 0.125)
-    print rungekutta4(1, 1, 10, f, 0.125)
-     
+    print "--++{ dy/dt = y ** 2 }++--"
+    print euler(1, 1, 10, f, dt)
+    print rungekutta2(1, 1, 10, f, dt)
+    print rungekutta4(1, 1, 10, f, dt)
