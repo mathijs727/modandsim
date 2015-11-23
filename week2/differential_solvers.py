@@ -11,8 +11,11 @@ def euler(y0, t0, t1, f, stepsize):
         y += stepsize * f(t, y)
         t += stepsize
        
-    if not np.isfinite(y.all()):
-        return None
+    if (type(y) ==  np.ndarray):
+        if not np.isfinite(y.all()):
+            return None
+    elif not np.isfinite(y):
+            return None
 
     return y
     
@@ -31,8 +34,11 @@ def rungekutta2(y0, t0, t1, f, stepsize):
         y += stepsize * 0.5 * (An + Bn)
         t += stepsize
 
-    if not np.isfinite(y.all()):
-        return None
+    if (type(y) == np.ndarray):
+        if not np.isfinite(y.all()):
+            return None
+    elif not np.isfinite(y):
+            return None
 
     return y
     
@@ -57,8 +63,11 @@ def rungekutta4(y0, t0, t1, f, stepsize):
         y += stepsize * (k1 + 2 * k2 + 2 * k3 + k4) / 6.0
         t += stepsize
 
-    if not np.isfinite(y.all()):
-        return None
+    if (type(y) == np.ndarray):
+        if not np.isfinite(y.all()):
+            return None
+    elif not np.isfinite(y):
+            return None
 
     return y
 
