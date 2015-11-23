@@ -53,8 +53,8 @@ if __name__ == "__main__":
 
 	ax = plt.gca()
 	ax.legend((s, e, i, r), ("Susceptible", "Exposed", "Infected", "Recovered"), loc="upper left")
-	ax.set_title("time")
+	ax.set_title("SEIR")
 	ax.set_xlabel("t")
-	ax.set_ylabel("x(t), y(t) and z(t)")
+	ax.set_ylabel("Number of people")
 
 	plt.show()

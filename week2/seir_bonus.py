@@ -71,8 +71,8 @@ if __name__ == "__main__":
 		(s, e1, e2, e3, i1, i2, i3, r),
 		("Susceptible", "Exposed 1", "Exposed 2", "Exposed 3", "Infected 1", "Infected 2", "Infected 3", "Recovered"),
 		loc="upper left")
-	ax.set_title("time")
+	ax.set_title("Bonus SEIR")
 	ax.set_xlabel("t")
-	ax.set_ylabel("x(t), y(t) and z(t)")
+	ax.set_ylabel("Number of people")
 
 	plt.show()
