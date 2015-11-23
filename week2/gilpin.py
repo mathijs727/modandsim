@@ -1,3 +1,10 @@
+"""
+    Names:  Peter Verkade & Mathijs Molenaar
+    Date:   23-11-2015
+    Course: Modelling & Simulating
+    Assignment: assignment 2 part 4
+"""
+
 from matplotlib import pyplot as plt
 import numpy as np
 
@@ -5,7 +12,7 @@ from differential_solvers import *
 
 if __name__ == "__main__":
     
-    start = np.array([10., 10., 10.]) # x, y
+    start = np.array([20., 20., 10.]) # x, y
     
     f = lambda time, state: np.array([
         state[0] * (1 - 0.001 * state[0] - 0.001 * state[1] - 0.01 * state[2]),

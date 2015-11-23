@@ -1,3 +1,10 @@
+"""
+    Names:  Peter Verkade & Mathijs Molenaar
+    Date:   23-11-2015
+    Course: Modelling & Simulating
+    Assignment: assignment 2 part 5
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 

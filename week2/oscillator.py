@@ -1,3 +1,10 @@
+"""
+    Names:  Peter Verkade & Mathijs Molenaar
+    Date:   23-11-2015
+    Course: Modelling & Simulating
+    Assignment: assignment 2 part 3
+"""
+
 from matplotlib import pyplot as plt
 import numpy as np
 
@@ -100,12 +107,12 @@ if __name__ == "__main__":
         speed_euler       = [s[1] for s in solve_for_list(start, time, f, integration_method=euler)] 
         speed_rungekutta2 = [s[1] for s in solve_for_list(start, time, f, integration_method=rungekutta2)] 
         
-        a = plt.scatter(results_euler, speed_euler, color="blue")
-        b = plt.scatter(results_rungekutta2, speed_rungekutta2, color="red")
+        a = plt.scatter(speed_euler, results_euler, color="blue")
+        b = plt.scatter(speed_rungekutta2, results_rungekutta2, color="red")
         
         ax = plt.gca()
         ax.legend((a, b), ("Euler method", "Runge-Kutta 2"), loc="lower right")
         ax.set_title("phase space, stepsize {} period".format(stepsize_fraction))
-        ax.set_xlabel("s(t)")
-        ax.set_ylabel("v(t)")
+        ax.set_xlabel("v(t)")
+        ax.set_ylabel("s(t)")
         plt.show()   
