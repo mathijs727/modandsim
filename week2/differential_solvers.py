@@ -123,12 +123,3 @@ if __name__ == "__main__":
     print euler(1, 1, 10, f, dt)
     print rungekutta2(1, 1, 10, f, dt)
     print rungekutta4(1, 1, 10, f, dt)
-    
-    f = lambda t, y : y + 2
-    results = [euler(2, 0, t, f, dt) for t in np.arange(0, 10.1, 0.1)]
-    plt.plot(np.arange(0, 10.1, 0.1), results)
-    
-    ax = plt.gca()
-    ax.set_yscale("log")
-    plt.show()
-     
