@@ -33,7 +33,7 @@ def SEIR(time, state):
 	])
 
 if __name__ == "__main__":
-	stepsize = 0.25
+	stepsize = 0.05
 
 	# Susceptible, Exposed, Infected, Recovered
 	start = np.array([999.0, 1.0, 0.0, 0.0])

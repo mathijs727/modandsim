@@ -5,7 +5,7 @@ from differential_solvers import *
 
 if __name__ == "__main__":
     
-    start = np.array([30., 50.]) # x, y
+    start = np.array([11., 49.]) # x, y
     
     a = 0.5
     b = 1.0
@@ -17,7 +17,7 @@ if __name__ == "__main__":
         + b * state[1]     - d * state[0] * state[1]
     ])
     
-    stepsize = 0.125
+    stepsize = 0.01
     time = np.arange(0, 100, stepsize)
     
     results = solve_for_list(start, time, f)

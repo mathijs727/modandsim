@@ -14,8 +14,8 @@ if __name__ == "__main__":
         state[2] * (0.005 * state[0] + 0.0005 * state[1] - 1)
     ])
     
-    stepsize = 0.125
-    time = np.arange(0, 1000, stepsize)
+    stepsize = 0.05
+    time = np.arange(0, 2000, stepsize)
     
     results = solve_for_list(start, time, f)
     
