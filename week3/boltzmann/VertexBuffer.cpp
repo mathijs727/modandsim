@@ -39,6 +39,7 @@ VertexBuffer::VertexBuffer(const Vertex* vertices, size_t numVertices)
 
 VertexBuffer::~VertexBuffer()
 {
+	glBindVertexArray(0);
 	glDeleteBuffers(1, &m_vbo);
 	glDeleteVertexArrays(1, &m_vao);
 }

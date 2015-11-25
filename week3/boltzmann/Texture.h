@@ -1,5 +1,5 @@
 #pragma once
-#include <GL/glew.h>
+#include <opengl/gl3.h>
 
 class Texture
 {

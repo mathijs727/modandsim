@@ -35,15 +35,18 @@ int main(int argc, char** argv)
 	}
 
 	Window window = Window(800, 800, "Boltzmann fluid simulator");
-	VertexBuffer square = VertexBuffer(vertices, 4);
-	ShaderProgram shader = ShaderProgram("VertexShader.glsl", "FragmentShader.glsl");
-	Texture texture = Texture(imageWidth, imageHeight, randomTexture);
-
 	setupOpenGL();
 
-	shader.bind();
-	square.bind();
+	Texture texture = Texture(imageWidth, imageHeight, randomTexture);
 	texture.bind();
+
+	VertexBuffer square = VertexBuffer(vertices, 4);
+	square.bind();
+
+	ShaderProgram shader = ShaderProgram("VertexShader.glsl", "FragmentShader.glsl");
+	shader.bind();
+
+
 	while (!window.shouldClose())
 	{
 		Window::pollEvents();
@@ -53,6 +56,7 @@ int main(int argc, char** argv)
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		window.swapBuffers();
 	}
+	std::cout << "Hello world!" << std::endl;
 
 	return 1;
 }

@@ -18,7 +18,6 @@ set(SOURCE_FILES
 
 include_directories(libs/include GLFW glm)
 
-find_package( GLEW REQUIRED )
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)
 if (APPLE)
@@ -29,4 +28,4 @@ else(APPLE)
     endif(WIN32)
 endif(APPLE)
 add_executable( boltzmann ${SOURCE_FILES} )
-target_link_libraries( boltzmann ${GLEW_LIBRARY} ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} )
+target_link_libraries( boltzmann ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} )

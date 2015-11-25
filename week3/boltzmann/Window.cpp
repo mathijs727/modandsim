@@ -28,12 +28,12 @@ Window::Window(int width, int height, const char* title)
 	glfwMakeContextCurrent(m_window);
 
 	/* Initialize GLEW */
-	GLenum err = glewInit();
+	/*GLenum err = glewInit();
 	if (err != GLEW_OK)
 	{
 		std::cout << "Error initializing glew:\n" << glewGetErrorString(err) << std::endl;
-	}
-	
+	}*/
+
 	std::cout << "OpenGL " << glGetString(GL_VERSION) << std::endl;
 }
 
