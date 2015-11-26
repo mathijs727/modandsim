@@ -95,7 +95,7 @@ void ShaderProgram::compileProgram()
 	{
 		GLint length;
 		glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &length);
-		std::vector<char> error(length);
+		std::vector<char> error(length+1);
 		glGetProgramInfoLog(m_program, length, &length, &error[0]);
 
 		std::cout << "Failed to link shader program: " << &error[0] << std::endl;
@@ -109,7 +109,7 @@ void ShaderProgram::compileProgram()
 	{
 		GLint length;
 		glGetProgramiv(m_program, GL_INFO_LOG_LENGTH, &length);
-		std::vector<char> error(length);
+		std::vector<char> error(length+1);
 		glGetProgramInfoLog(m_program, length, &length, &error[0]);
 
 		std::cout << "Failed to validate shader program: " << &error[0] << std::endl;
