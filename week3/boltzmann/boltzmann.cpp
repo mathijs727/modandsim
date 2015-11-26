@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 	// Fill texture with random values
 	for (int i = 0; i < imageWidth * imageHeight * 3; i++)
 	{
-		randomTexture[i] = rand();
+		randomTexture[i] = (char)rand();
 	}
 
 	Window window = Window(600, 600, "Boltzmann fluid simulator");
@@ -39,7 +39,7 @@ int main(int argc, char** argv)
 	VertexBuffer square = VertexBuffer(vertices, 4);
 	square.bind();
 
-	ShaderProgram shader = ShaderProgram("VertexShader.glsl", "FragmentShader.glsl");
+	ShaderProgram shader = ShaderProgram("../VertexShader.glsl", "../FragmentShader.glsl");
 	shader.bind();
 
 

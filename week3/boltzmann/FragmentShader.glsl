@@ -8,5 +8,5 @@ uniform sampler2D u_sampler;
 
 void main()
 {
-	color = texture2D(u_sampler, v_texCoord).rgb;
+	color = texture(u_sampler, v_texCoord).rgb;
 }
