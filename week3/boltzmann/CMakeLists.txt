@@ -20,12 +20,9 @@ include_directories(libs/include GLFW glm)
 
 find_package(PkgConfig REQUIRED)
 pkg_search_module(GLFW REQUIRED glfw3)
-if (APPLE)
-    find_package( OPENGL REQUIRED )
-else(APPLE)
-    if (WIN32)
-        find_package( OPENGL REQUIRED )
-    endif(WIN32)
-endif(APPLE)
-add_executable( boltzmann ${SOURCE_FILES} )
-target_link_libraries( boltzmann ${OPENGL_LIBRARY} ${GLFW_LIBRARIES} )
+
+find_package(GLEW REQUIRED)
+find_package(OPENGL REQUIRED)
+
+add_executable(boltzmann ${SOURCE_FILES})
+target_link_libraries(boltzmann ${OPENGL_LIBRARY} ${GLEW_LIBRARIES} ${GLFW_LIBRARIES})

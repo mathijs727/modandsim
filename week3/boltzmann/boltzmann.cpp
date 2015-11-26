@@ -4,10 +4,6 @@
 #include "VertexBuffer.h"
 #include "Texture.h"
 
-#include <stdlib.h>
-#include <iostream>
-#include <vector>
-
 void setupOpenGL()
 {
 	glEnable(GL_TEXTURE_2D);
@@ -34,7 +30,7 @@ int main(int argc, char** argv)
 		randomTexture[i] = rand();
 	}
 
-	Window window = Window(800, 800, "Boltzmann fluid simulator");
+	Window window = Window(600, 600, "Boltzmann fluid simulator");
 	setupOpenGL();
 
 	Texture texture = Texture(imageWidth, imageHeight, randomTexture);
@@ -56,7 +52,6 @@ int main(int argc, char** argv)
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		window.swapBuffers();
 	}
-	std::cout << "Hello world!" << std::endl;
 
 	return 1;
 }
