@@ -38,3 +38,41 @@ AppWizard uses "TODO:" comments to indicate parts of the source code you
 should add to or customize.
 
 /////////////////////////////////////////////////////////////////////////////
+Install on Linux (Ubuntu 15.10):
+
+sudo apt-get install git
+sudo apt-get install cmake
+sudo apt-get install libglew-dev
+
+git clone https://github.com/glfw/glfw.git
+cd glfw
+sudo apt-get build-dep glfw3
+cmake -G "Unix Makefiles"
+make
+sudo make install
+
+[IN BOLTZMANN FOLDER]
+mkdir build
+cd build
+cmake -G "Unix Makefiles" ..
+make
+./boltzmann
+
+/////////////////////////////////////////////////////////////////////////////
+Install on Windows:
+Open boltzmann.sln in VS2015
+
+/////////////////////////////////////////////////////////////////////////////
+Install on OS X:
+Install macports...
+sudo port install git
+sudo port install cmake
+sudo port install glew
+sudo port install glfw
+
+[IN BOLTZMANN FOLDER]
+mkdir build
+cd build
+cmake -G "Unix Makefiles" ..
+make
+./boltzmann
