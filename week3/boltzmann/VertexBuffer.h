@@ -1,7 +1,7 @@
 #pragma once
 #include "Vertex.h"
 
-#include <opengl/gl3.h>
+#include <GL/glew.h>
 #include <vector>
 
 class VertexBuffer

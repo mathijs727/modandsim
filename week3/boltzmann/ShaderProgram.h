@@ -1,5 +1,5 @@
 #pragma once
-#include <opengl/gl3.h>
+#include <GL/glew.h>
 #include <string>
 
 class ShaderProgram
