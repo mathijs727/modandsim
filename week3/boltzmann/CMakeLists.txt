@@ -15,8 +15,10 @@ set(SOURCE_FILES
         VertexBuffer.h
         Window.cpp
         Window.h
-        Sequential.cpp
-        Sequential.h BoltzmannGrid2D9Q.h BoltzmannGrid2D9Q.cpp BoltzmannGrid2D9Q.cpp.h)
+        FPSCounter.cpp
+        FPSCounter.h
+        BoltzmannGridD2Q9.cpp
+        BoltzmannGridD2Q9.h)
 
 include_directories(libs/include glm)
 
