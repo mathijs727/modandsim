@@ -3,7 +3,7 @@
 class BoltzmannGrid2D9Q
 {
 public:
-	static enum BoundaryType
+	enum BoundaryType
 	{
 		NoBoundary,
 		BounceBackBoundary,
