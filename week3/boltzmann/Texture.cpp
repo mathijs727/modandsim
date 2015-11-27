@@ -15,6 +15,13 @@ Texture::~Texture()
 	glDeleteTextures(1, &m_id);
 }
 
+void Texture::update(int width, int height, const void* data)
+{
+	glBindTexture(GL_TEXTURE_2D, m_id);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+	glBindTexture(GL_TEXTURE_2D, 0);
+}
+
 void Texture::bind() const
 {
 	glBindTexture(GL_TEXTURE_2D, m_id);

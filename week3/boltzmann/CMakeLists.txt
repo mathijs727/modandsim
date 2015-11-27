@@ -4,17 +4,19 @@ project(boltzmann)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 set(SOURCE_FILES
-    boltzmann.cpp
-    ErrorHandling.h
-    ShaderProgram.cpp
-    ShaderProgram.h
-    Texture.cpp
-    Texture.h
-    Vertex.h
-    VertexBuffer.cpp
-    VertexBuffer.h
-    Window.cpp
-    Window.h)
+        boltzmann.cpp
+        ErrorHandling.h
+        ShaderProgram.cpp
+        ShaderProgram.h
+        Texture.cpp
+        Texture.h
+        Vertex.h
+        VertexBuffer.cpp
+        VertexBuffer.h
+        Window.cpp
+        Window.h
+        Sequential.cpp
+        Sequential.h BoltzmannGrid2D9Q.h BoltzmannGrid2D9Q.cpp BoltzmannGrid2D9Q.cpp.h)
 
 include_directories(libs/include glm)
 
