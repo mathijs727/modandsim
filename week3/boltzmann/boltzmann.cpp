@@ -8,6 +8,7 @@
 
 #include <chrono>
 #include <iostream>
+#include <Windows.h>
 
 void setupOpenGL()
 {
@@ -21,24 +22,25 @@ typedef float real;
 int main(int argc, char** argv)
 {
 	Vertex vertices[] = {
-		Vertex{ glm::vec2(-1.0f, 1.0f), glm::vec2(-1.0f, 1.0f) },
+		Vertex{ glm::vec2(-1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
 		Vertex{ glm::vec2(1.0f, 1.0f), glm::vec2(1.0f, 1.0f) },
-		Vertex{ glm::vec2(-1.0f, -1.0f), glm::vec2(-1.0f, -1.0f) },
-		Vertex{ glm::vec2(1.0f, -1.0f), glm::vec2(1.0f, -1.0f) }
+		Vertex{ glm::vec2(-1.0f, -1.0f), glm::vec2(0.0f, 0.0f) },
+		Vertex{ glm::vec2(1.0f, -1.0f), glm::vec2(1.0f, 0.0f) }
 	};
 
-	const int imageWidth = 200;
-	const int imageHeight = 200;
-	char* boltzmannTexture = new char[imageWidth * imageHeight * 3];
-	BoltzmannGrid2D9Q::BoundaryTypes* boundaries = new BoltzmannGrid2D9Q::BoundaryTypes[imageWidth * imageHeight];
+	const int imageWidth = 50;
+	const int imageHeight = 50;
+	char* boltzmannTexture = new char[imageWidth * imageHeight * 4];
+	BoltzmannGrid2D9Q::BoundaryType* boundaries = new BoltzmannGrid2D9Q::BoundaryType[imageWidth * imageHeight];
 	real* initialValues = new real[imageWidth * imageHeight * 9];
 	real tau = 1.0;
 
 	for (int y = 0; y < imageHeight; y++)
 	{
-		for (int x = 0; x < imageHeight; x++)
+		for (int x = 0; x < imageWidth; x++)
 		{
-			if (x > 20 && x < 150 && y > 50 && y < 150)
+			boundaries[y * imageWidth + x] = BoltzmannGrid2D9Q::NoBoundary;
+			if (x > 10 && x < imageWidth-10 && y > 10 && y < imageHeight-10)
 			{
 				for (int i = 0; i < 9; i++) {
 					int index = i * (imageWidth * imageHeight) + y * imageWidth + x;
@@ -52,6 +54,19 @@ int main(int argc, char** argv)
 			}
 		}
 	}
+
+	// Create boundary at edge of grid
+	for (int y = 0; y < imageHeight; y++)
+	{
+		boundaries[y * imageWidth + 0] = BoltzmannGrid2D9Q::BounceBackBoundary;
+		boundaries[y * imageWidth + imageWidth-1] = BoltzmannGrid2D9Q::BounceBackBoundary;
+	}
+	for (int x = 0; x < imageWidth; x++)
+	{
+		boundaries[x] = BoltzmannGrid2D9Q::BounceBackBoundary;
+		boundaries[(imageHeight-1) * imageWidth + x] = BoltzmannGrid2D9Q::BounceBackBoundary;
+	}
+
 	BoltzmannGrid2D9Q grid = BoltzmannGrid2D9Q(1.0f, imageWidth, imageHeight, initialValues, boundaries);
 	delete[] initialValues;
 
@@ -74,6 +89,7 @@ int main(int argc, char** argv)
 	FPSCounter fpsCounter = FPSCounter();
 	while (!window.shouldClose())
 	{
+		Sleep(100);
 		Window::pollEvents();
 		fpsCounter.update();
 
