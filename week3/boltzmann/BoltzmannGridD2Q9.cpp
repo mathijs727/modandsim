@@ -123,21 +123,30 @@ void BoltzmannGrid2D9Q::streamStep()
 
 void BoltzmannGrid2D9Q::boundaryStep()
 {
-	for (int y = 1; y < m_height - 1; y++)
+	for (int y = 0; y < m_height; y++)
 	{
-		for (int x = 1; x < m_width - 1; x++)
+		for (int x = 0; x < m_width; x++)
 		{
 			BoundaryType type = getBoundaryType(x, y);
 			if (type == BounceBackBoundary)
 			{
-				setValueCurrentGrid(x, y, 1, getValue(x, y, 5));
-				setValueCurrentGrid(x, y, 2, getValue(x, y, 6));
-				setValueCurrentGrid(x, y, 3, getValue(x, y, 7));
-				setValueCurrentGrid(x, y, 4, getValue(x, y, 8));
-				setValueCurrentGrid(x, y, 5, getValue(x, y, 1));
-				setValueCurrentGrid(x, y, 6, getValue(x, y, 2));
-				setValueCurrentGrid(x, y, 7, getValue(x, y, 3));
-				setValueCurrentGrid(x, y, 8, getValue(x, y, 4));
+				real val1 = getValue(x, y, 1);
+				real val2 = getValue(x, y, 2);
+				real val3 = getValue(x, y, 3);
+				real val4 = getValue(x, y, 4);
+				real val5 = getValue(x, y, 5);
+				real val6 = getValue(x, y, 6);
+				real val7 = getValue(x, y, 7);
+				real val8 = getValue(x, y, 8);
+
+				setValueCurrentGrid(x, y, 1, val5);
+				setValueCurrentGrid(x, y, 2, val6);
+				setValueCurrentGrid(x, y, 3, val7);
+				setValueCurrentGrid(x, y, 4, val8);
+				setValueCurrentGrid(x, y, 5, val1);
+				setValueCurrentGrid(x, y, 6, val2);
+				setValueCurrentGrid(x, y, 7, val3);
+				setValueCurrentGrid(x, y, 8, val4);
 			}
 		}
 	}
