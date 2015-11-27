@@ -182,13 +182,17 @@ copy FragmentShader.glsl $(OutDir)</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="boltzmann.cpp" />
+    <ClCompile Include="BoltzmannGridD2Q9.cpp" />
+    <ClCompile Include="FPSCounter.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BoltzmannGridD2Q9.h" />
     <ClInclude Include="ErrorHandling.h" />
+    <ClInclude Include="FPSCounter.h" />
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Vertex.h" />

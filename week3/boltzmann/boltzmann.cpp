@@ -3,7 +3,11 @@
 #include "ShaderProgram.h"
 #include "VertexBuffer.h"
 #include "Texture.h"
-#include "Sequential.cpp"
+#include "FPSCounter.h"
+#include "BoltzmannGridD2Q9.h"
+
+#include <chrono>
+#include <iostream>
 
 void setupOpenGL()
 {
@@ -25,9 +29,10 @@ int main(int argc, char** argv)
 
 	const int imageWidth = 200;
 	const int imageHeight = 200;
-	//char randomTexture[imageWidth * imageHeight * 3];
-	char boltzmannTexture[imageWidth * imageHeight * 3];
-	real boltzmannGrid[2][imageWidth * imageHeight * 9];
+	char* boltzmannTexture = new char[imageWidth * imageHeight * 3];
+	BoltzmannGrid2D9Q::BoundaryTypes* boundaries = new BoltzmannGrid2D9Q::BoundaryTypes[imageWidth * imageHeight];
+	real* initialValues = new real[imageWidth * imageHeight * 9];
+	real tau = 1.0;
 
 	for (int y = 0; y < imageHeight; y++)
 	{
@@ -36,21 +41,19 @@ int main(int argc, char** argv)
 			if (x > 20 && x < 150 && y > 50 && y < 150)
 			{
 				for (int i = 0; i < 9; i++) {
-					boltzmannGrid[0][(y * imageWidth + x) * 9 + i] = (real)(1. / 9.);
+					int index = i * (imageWidth * imageHeight) + y * imageWidth + x;
+					initialValues[index] = 1. / 9.;
 				}
 			} else {
 				for (int i = 0; i < 9; i++) {
-					boltzmannGrid[0][(y * imageWidth + x) * 9 + i] = 0.0;
+					int index = i * (imageWidth * imageHeight) + y * imageWidth + x;
+					initialValues[index] = 0.0;
 				}
 			}
 		}
 	}
-
-	// Fill texture with random values
-	/*for (int i = 0; i < imageWidth * imageHeight * 3; i++)
-	{
-		randomTexture[i] = (char)rand();
-	}*/
+	BoltzmannGrid2D9Q grid = BoltzmannGrid2D9Q(1.0f, imageWidth, imageHeight, initialValues, boundaries);
+	delete[] initialValues;
 
 	Window window = Window(600, 600, "Boltzmann fluid simulator");
 	setupOpenGL();
@@ -68,16 +71,16 @@ int main(int argc, char** argv)
 #endif
 	shader.bind();
 
-	int grid = 0;
+	FPSCounter fpsCounter = FPSCounter();
 	while (!window.shouldClose())
 	{
 		Window::pollEvents();
+		fpsCounter.update();
 
-		//collide<real>(boltzmannGrid[grid], imageWidth, imageHeight, 1.0);
-		//stream<real>(boltzmannGrid[grid], boltzmannGrid[(grid+1)%2], imageWidth, imageHeight);
-		//grid = (grid + 1) % 2;
 		//TODO: Boundaries
-		createTexture<real>(boltzmannGrid[grid], boltzmannTexture, imageWidth, imageHeight);
+		grid.collsionStep();
+		grid.streamStep();
+		grid.createTexture(boltzmannTexture);
 
 		texture.unbind();
 		texture.update(imageWidth, imageHeight, boltzmannTexture);
@@ -87,6 +90,9 @@ int main(int argc, char** argv)
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		window.swapBuffers();
 	}
+
+	delete[] boltzmannTexture;
+	delete[] boundaries;
 
 	return 1;
 }
