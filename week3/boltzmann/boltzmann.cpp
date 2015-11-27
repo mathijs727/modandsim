@@ -34,7 +34,8 @@ int main(int argc, char** argv)
 	BoltzmannGrid2D9Q::BoundaryType* boundaries = new BoltzmannGrid2D9Q::BoundaryType[imageWidth * imageHeight];
 	real* initialValues = new real[imageWidth * imageHeight * 9];
 	real tau = 1.0;
-
+	
+	// Initial values
 	for (int y = 0; y < imageHeight; y++)
 	{
 		for (int x = 0; x < imageWidth; x++)
@@ -44,7 +45,7 @@ int main(int argc, char** argv)
 			{
 				for (int i = 0; i < 9; i++) {
 					int index = i * (imageWidth * imageHeight) + y * imageWidth + x;
-					initialValues[index] = 1. / 9.;
+					initialValues[index] = 1. / 10.;
 				}
 			} else {
 				for (int i = 0; i < 9; i++) {
@@ -94,8 +95,9 @@ int main(int argc, char** argv)
 		fpsCounter.update();
 
 		//TODO: Boundaries
-		grid.collsionStep();
+		//grid.collsionStep();
 		grid.streamStep();
+		grid.boundaryStep();
 		grid.createTexture(boltzmannTexture);
 
 		texture.unbind();

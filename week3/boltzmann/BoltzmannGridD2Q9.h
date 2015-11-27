@@ -35,7 +35,7 @@ private:
 
 	inline void setValueCurrentGrid(int x, int y, int i, real value)
 	{
-		m_data[m_curData ][i * m_size + y * m_width + x] = value;
+		m_data[m_curData][i * m_size + y * m_width + x] = value;
 	}
 	
 	inline void setValueNewGrid(int x, int y, int i, real value)

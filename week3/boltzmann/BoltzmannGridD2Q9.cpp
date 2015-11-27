@@ -109,12 +109,15 @@ void BoltzmannGrid2D9Q::streamStep()
 				
 				if (fromX >= 0 && fromX < m_width && fromY >= 0 && fromY < m_height)
 				{
-					setValueNewGrid(x, y, i, getValue(fromX, fromY, i));
+					real val = getValue(fromX, fromY, i);
+					setValueNewGrid(x, y, i, val);
+				}
+				else {
+					setValueNewGrid(x, y, i, 0.0);
 				}
 			}
 		}
 	}
-
 	m_curData = (m_curData + 1) % 2;
 }
 
