@@ -61,7 +61,11 @@ int main(int argc, char** argv)
 	VertexBuffer square = VertexBuffer(vertices, 4);
 	square.bind();
 
+#ifdef _WIN32
+	ShaderProgram shader = ShaderProgram("VertexShader.glsl", "FragmentShader.glsl");
+#else
 	ShaderProgram shader = ShaderProgram("../VertexShader.glsl", "../FragmentShader.glsl");
+#endif
 	shader.bind();
 
 	int grid = 0;
