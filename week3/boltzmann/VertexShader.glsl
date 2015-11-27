@@ -1,9 +1,9 @@
-#version 130
+#version 120
 
-in vec2 a_position;
-in vec2 a_texCoord;
+attribute vec2 a_position;
+attribute vec2 a_texCoord;
 
-out vec2 v_texCoord;
+varying vec2 v_texCoord;
 
 void main()
 {
