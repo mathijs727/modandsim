@@ -63,10 +63,15 @@ void BoltzmannGridD2Q9::createTexture(char* texture)
 					sum += getValue(x, y, i);
 				}
 
-				char value = char(sum * 255);
+				if (sum > 1.0f)
+				{
+					std::cout << "Value in (" << x << ", " << y << ") = " << sum << std::endl;
+				}
+
+				char value = char(sum * 120);
 				texture[(y * m_width + x) * 4 + 0] = 0;
-				texture[(y * m_width + x) * 4 + 1] = value;
-				texture[(y * m_width + x) * 4 + 2] = 0;
+				texture[(y * m_width + x) * 4 + 1] = 20;
+				texture[(y * m_width + x) * 4 + 2] = value;
 			} else {
 				texture[(y * m_width + x) * 4 + 0] = (char)255;
 				texture[(y * m_width + x) * 4 + 1] = 0;
@@ -86,10 +91,16 @@ void BoltzmannGridD2Q9::collsionStep()
 			real u[2];
 			calcRhoAndU(x, y, rho, u);
 
+			real currentDistrSum = 0.0;
+			real newDistrSum = 0.0;
 			for (int i = 0; i < 9; i++) {
 				real eqDistr = equilibriumDistributionFunction(i, rho, u);
 				real curDistr = getValue(x, y, i);
 				real newDistr = curDistr - ((real)1.0 / m_tau) * (curDistr - eqDistr);
+
+				currentDistrSum += curDistr;
+				newDistrSum += newDistr;
+
 				setValueCurrentGrid(x, y, i, newDistr);
 			}
 		}
@@ -130,23 +141,14 @@ void BoltzmannGridD2Q9::boundaryStep()
 			BoundaryType type = getBoundaryType(x, y);
 			if (type == BounceBackBoundary)
 			{
-				real val1 = getValue(x, y, 1);
-				real val2 = getValue(x, y, 2);
-				real val3 = getValue(x, y, 3);
-				real val4 = getValue(x, y, 4);
-				real val5 = getValue(x, y, 5);
-				real val6 = getValue(x, y, 6);
-				real val7 = getValue(x, y, 7);
-				real val8 = getValue(x, y, 8);
-
-				setValueCurrentGrid(x, y, 1, val5);
-				setValueCurrentGrid(x, y, 2, val6);
-				setValueCurrentGrid(x, y, 3, val7);
-				setValueCurrentGrid(x, y, 4, val8);
-				setValueCurrentGrid(x, y, 5, val1);
-				setValueCurrentGrid(x, y, 6, val2);
-				setValueCurrentGrid(x, y, 7, val3);
-				setValueCurrentGrid(x, y, 8, val4);
+				for (int i = 0; i < 9; i++)
+				{
+					real value = getValue(x, y, i);
+					int moveToX = x - directions[i * 2];
+					int moveToY = y - directions[i * 2 + 1];
+					int newDir = 1 + (i + 3) % 8;
+					setValueCurrentGrid(moveToX, moveToY, newDir, value);
+				}
 			}
 		}
 	}
@@ -159,9 +161,9 @@ BoltzmannGridD2Q9::real BoltzmannGridD2Q9::equilibriumDistributionFunction(int i
 
 	real dotProductDirU = directions[i * 2] * u[0] + directions[i * 2 + 1] * u[1];
 	real dotProductUU = u[0] * u[0] + u[1] * u[1];
-	real term1 = 3 * dotProductDirU / (csSqr);
-	real term2 = 9 * (dotProductDirU * dotProductDirU) / (2 * csSqr * csSqr);
-	real term3 = 3 * dotProductUU / (2 * csSqr);
+	real term1 = dotProductDirU / (csSqr);
+	real term2 = (dotProductDirU * dotProductDirU) / (2 * csSqr * csSqr);
+	real term3 = dotProductUU / (2 * csSqr);
 	return weight * rho * (1 + term1 + term2 - term3);
 }
 
@@ -180,6 +182,11 @@ void BoltzmannGridD2Q9::calcRhoAndU(int x, int y, real& rho, real u[2])
 		u[1] += directions[i * 2 + 1] * value;
 	}
 
-	u[0] /= rho;
-	u[1] /= rho;
+	if (rho > 0.0) {
+		u[0] /= rho;
+		u[1] /= rho;
+	} else {
+		u[0] = 0.0;
+		u[1] = 0.0;
+	}
 }

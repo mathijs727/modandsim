@@ -39,7 +39,6 @@ int main(int argc, char** argv)
 	char* boltzmannTexture = new char[imageWidth * imageHeight * 4];
 	BoltzmannGridD2Q9::BoundaryType* boundaries = new BoltzmannGridD2Q9::BoundaryType[imageWidth * imageHeight];
 	real* initialValues = new real[imageWidth * imageHeight * 9];
-	real tau = 1.0;
 	
 	// Initial values
 	for (int y = 0; y < imageHeight; y++)
@@ -51,7 +50,7 @@ int main(int argc, char** argv)
 			{
 				for (int i = 0; i < 9; i++) {
 					int index = i * (imageWidth * imageHeight) + y * imageWidth + x;
-					initialValues[index] = 1. / 10.;
+					initialValues[index] = 1. / 9.;
 				}
 			} else {
 				for (int i = 0; i < 9; i++) {
@@ -94,7 +93,8 @@ int main(int argc, char** argv)
 	shader.bind();
 
 	FPSCounter fpsCounter = FPSCounter();
-	while (!window.shouldClose())
+	//while (!window.shouldClose())
+	for (int i = 0; i < 20; i++)
 	{
 		int milliseconds = 80;
 #ifdef WIN32
@@ -111,9 +111,9 @@ int main(int argc, char** argv)
 		fpsCounter.update();
 
 		//TODO: Boundaries
-		//grid.collsionStep();
 		grid.streamStep();
 		grid.boundaryStep();
+		grid.collsionStep();
 		grid.createTexture(boltzmannTexture);
 
 		texture.unbind();

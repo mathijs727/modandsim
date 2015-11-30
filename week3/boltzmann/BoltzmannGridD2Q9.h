@@ -1,5 +1,8 @@
 #pragma once
 
+#include <math.h>
+#include <iostream>
+
 class BoltzmannGridD2Q9
 {
 public:
