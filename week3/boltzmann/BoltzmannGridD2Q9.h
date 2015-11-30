@@ -1,6 +1,6 @@
 #pragma once
 
-class BoltzmannGrid2D9Q
+class BoltzmannGridD2Q9
 {
 public:
 	enum BoundaryType
@@ -18,8 +18,8 @@ private:
 	real* m_data[2];
 	BoundaryType* m_boundaries;
 public:
-	BoltzmannGrid2D9Q(real tau, int width, int height, real* data, BoundaryType* boundaries);
-	~BoltzmannGrid2D9Q();
+	BoltzmannGridD2Q9(real tau, int width, int height, real* data, BoundaryType* boundaries);
+	~BoltzmannGridD2Q9();
 	void createTexture(char* texture);
 	void collsionStep();
 	void streamStep();

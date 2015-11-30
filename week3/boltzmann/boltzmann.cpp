@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 	const int imageWidth = 50;
 	const int imageHeight = 50;
 	char* boltzmannTexture = new char[imageWidth * imageHeight * 4];
-	BoltzmannGrid2D9Q::BoundaryType* boundaries = new BoltzmannGrid2D9Q::BoundaryType[imageWidth * imageHeight];
+	BoltzmannGridD2Q9::BoundaryType* boundaries = new BoltzmannGridD2Q9::BoundaryType[imageWidth * imageHeight];
 	real* initialValues = new real[imageWidth * imageHeight * 9];
 	real tau = 1.0;
 	
@@ -46,7 +46,7 @@ int main(int argc, char** argv)
 	{
 		for (int x = 0; x < imageWidth; x++)
 		{
-			boundaries[y * imageWidth + x] = BoltzmannGrid2D9Q::NoBoundary;
+			boundaries[y * imageWidth + x] = BoltzmannGridD2Q9::NoBoundary;
 			if (x > 10 && x < imageWidth-10 && y > 10 && y < imageHeight-10)
 			{
 				for (int i = 0; i < 9; i++) {
@@ -65,16 +65,16 @@ int main(int argc, char** argv)
 	// Create boundary at edge of grid
 	for (int y = 0; y < imageHeight; y++)
 	{
-		boundaries[y * imageWidth + 0] = BoltzmannGrid2D9Q::BounceBackBoundary;
-		boundaries[y * imageWidth + imageWidth-1] = BoltzmannGrid2D9Q::BounceBackBoundary;
+		boundaries[y * imageWidth + 0] = BoltzmannGridD2Q9::BounceBackBoundary;
+		boundaries[y * imageWidth + imageWidth-1] = BoltzmannGridD2Q9::BounceBackBoundary;
 	}
 	for (int x = 0; x < imageWidth; x++)
 	{
-		boundaries[x] = BoltzmannGrid2D9Q::BounceBackBoundary;
-		boundaries[(imageHeight-1) * imageWidth + x] = BoltzmannGrid2D9Q::BounceBackBoundary;
+		boundaries[x] = BoltzmannGridD2Q9::BounceBackBoundary;
+		boundaries[(imageHeight-1) * imageWidth + x] = BoltzmannGridD2Q9::BounceBackBoundary;
 	}
 
-	BoltzmannGrid2D9Q grid = BoltzmannGrid2D9Q(1.0f, imageWidth, imageHeight, initialValues, boundaries);
+	BoltzmannGridD2Q9 grid = BoltzmannGridD2Q9(1.0f, imageWidth, imageHeight, initialValues, boundaries);
 	delete[] initialValues;
 
 	Window window = Window(600, 600, "Boltzmann fluid simulator");
@@ -111,7 +111,7 @@ int main(int argc, char** argv)
 		fpsCounter.update();
 
 		//TODO: Boundaries
-		//grid.collsionStep();
+		grid.collsionStep();
 		grid.streamStep();
 		grid.boundaryStep();
 		grid.createTexture(boltzmannTexture);
