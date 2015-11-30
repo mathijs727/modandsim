@@ -154,14 +154,14 @@ void BoltzmannGridD2Q9::boundaryStep()
 
 BoltzmannGridD2Q9::real BoltzmannGridD2Q9::equilibriumDistributionFunction(int i, float rho, real u[2])
 {
-	real weight = weights[i];
-	real cs = 1.0 / sqrt(3);
+	real weight = static_cast<real>(weights[i]);
+	real csSqr = static_cast<real>(1.0 / 3.0);
 
 	real dotProductDirU = directions[i * 2] * u[0] + directions[i * 2 + 1] * u[1];
 	real dotProductUU = u[0] * u[0] + u[1] * u[1];
-	real term1 = 3 * dotProductDirU / (cs * cs);
-	real term2 = 9 * (dotProductDirU * dotProductDirU) / (2 * cs * cs * cs * cs);
-	real term3 = 3 * dotProductUU / (2 * cs * cs);
+	real term1 = 3 * dotProductDirU / (csSqr);
+	real term2 = 9 * (dotProductDirU * dotProductDirU) / (2 * csSqr * csSqr);
+	real term3 = 3 * dotProductUU / (2 * csSqr);
 	return weight * rho * (1 + term1 + term2 - term3);
 }
 

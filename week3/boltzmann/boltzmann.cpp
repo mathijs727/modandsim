@@ -111,7 +111,7 @@ int main(int argc, char** argv)
 		fpsCounter.update();
 
 		//TODO: Boundaries
-		grid.collsionStep();
+		//grid.collsionStep();
 		grid.streamStep();
 		grid.boundaryStep();
 		grid.createTexture(boltzmannTexture);
