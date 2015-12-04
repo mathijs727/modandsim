@@ -86,7 +86,7 @@ int main(int argc, char** argv)
 	shader.bind();
 
 	FPSCounter fpsCounter = FPSCounter();
-	fpsCounter.setFPSLock(60);
+	//fpsCounter.setFPSLock(60);
 
 	while (!window.shouldClose())
 	{
@@ -95,7 +95,7 @@ int main(int argc, char** argv)
 
 		grid.collsionStep();
 		grid.streamStep();
-		grid.boundaryStep();
+		//grid.boundaryStep();
 		grid.createTexture(boltzmannTexture);
 
 		texture.unbind();
