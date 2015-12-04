@@ -41,9 +41,9 @@ int main(int argc, char** argv)
 	real* initialValues = new real[imageWidth * imageHeight * 9];
 	
 	// Initial values
-	for (int y = 0; y < imageHeight; y++)
+	for (int y = 1; y < imageHeight -1; y++)
 	{
-		for (int x = 0; x < imageWidth; x++)
+		for (int x = 1; x < imageWidth -1; x++)
 		{
 			boundaries[y * imageWidth + x] = BoltzmannGridD2Q9::NoBoundary;
 			if (x > 10 && x < imageWidth-10 && y > 10 && y < imageHeight-10)
@@ -55,7 +55,7 @@ int main(int argc, char** argv)
 			} else {
 				for (int i = 0; i < 9; i++) {
 					int index = i * (imageWidth * imageHeight) + y * imageWidth + x;
-					initialValues[index] = 0.0;
+					initialValues[index] = 1. / 7.;
 				}
 			}
 		}
@@ -93,8 +93,8 @@ int main(int argc, char** argv)
 	shader.bind();
 
 	FPSCounter fpsCounter = FPSCounter();
-	//while (!window.shouldClose())
-	for (int i = 0; i < 20; i++)
+	while (!window.shouldClose())
+	//for (int i = 0; i < 20; i++)
 	{
 		int milliseconds = 80;
 #ifdef WIN32
@@ -105,15 +105,15 @@ int main(int argc, char** argv)
     	ts.tv_nsec = (milliseconds % 1000) * 1000000;
     	nanosleep(&ts, NULL);
 #else
-		usleep(milliseconds * 1000);
+		//usleep(milliseconds * 1000);
 #endif
 		Window::pollEvents();
 		fpsCounter.update();
 
 		//TODO: Boundaries
+        grid.collsionStep();
 		grid.streamStep();
 		grid.boundaryStep();
-		grid.collsionStep();
 		grid.createTexture(boltzmannTexture);
 
 		texture.unbind();

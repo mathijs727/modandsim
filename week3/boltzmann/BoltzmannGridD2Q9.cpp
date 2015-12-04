@@ -15,7 +15,12 @@ const int directions[] = {
 	0, -1,
 	1, -1
 };
-const double weights[] = {
+float R = 8.3144621f;
+float T = 293.f;
+float c = 1.f;//sqrtf(3 * R * T);
+float cSquare = 1.f;//3 * R * T;
+int velocities[18];
+const float weights[] = {
 	4. / 9.,
 	1. / 9.,
 	1. / 36.,
@@ -41,6 +46,11 @@ BoltzmannGridD2Q9::BoltzmannGridD2Q9(real tau, int width, int height, real* data
 
 	memcpy(m_data[0], data, sizeof(real) * m_size * 9);
 	memcpy(m_boundaries, boundaries, sizeof(BoundaryType) * m_size);
+	
+	for (int i = 0; i < 18; i++)
+	{
+		velocities[i] = c * directions[i];
+	}
 }
 
 BoltzmannGridD2Q9::~BoltzmannGridD2Q9()
@@ -63,14 +73,15 @@ void BoltzmannGridD2Q9::createTexture(char* texture)
 					sum += getValue(x, y, i);
 				}
 
-				if (sum > 1.0f)
+				if (sum < 0.0f && sum > 1.0f)
 				{
 					std::cout << "Value in (" << x << ", " << y << ") = " << sum << std::endl;
+					exit(1);
 				}
 
-				char value = char(sum * 120);
+				char value = char(sum * 150);
 				texture[(y * m_width + x) * 4 + 0] = 0;
-				texture[(y * m_width + x) * 4 + 1] = 20;
+				texture[(y * m_width + x) * 4 + 1] = 0;
 				texture[(y * m_width + x) * 4 + 2] = value;
 			} else {
 				texture[(y * m_width + x) * 4 + 0] = (char)255;
@@ -83,10 +94,15 @@ void BoltzmannGridD2Q9::createTexture(char* texture)
 
 void BoltzmannGridD2Q9::collsionStep()
 {
-	for (int y = 0; y < m_height; y++)
+	for (int y = 1; y < m_height - 1; y++)
 	{
-		for (int x = 0; x < m_width; x++)
+		for (int x = 1; x < m_width - 1; x++)
 		{
+			if (getBoundaryType(x, y) != NoBoundary)
+			{
+				continue;
+			}
+			
 			real rho;
 			real u[2];
 			calcRhoAndU(x, y, rho, u);
@@ -100,8 +116,29 @@ void BoltzmannGridD2Q9::collsionStep()
 
 				currentDistrSum += curDistr;
 				newDistrSum += newDistr;
+				
+				if (newDistr < 0.0f)
+				{
+					std::cout << "Location: " << x << ", " << y << std::endl;
+					std::cout << "i = " << i << std::endl;
+					std::cout << "Current distribution: " << curDistr << std::endl;
+					std::cout << "Equilibrium distribution: " << eqDistr << std::endl;
+					std::cout << "New distribution: " << newDistr << std::endl;
+					std::cout << "U: (" << u[0] << ", " << u[1] << ")" << std::endl;
+					std::cout << "Rho: " << rho << std::endl;
+					exit(1);
+				}
 
 				setValueCurrentGrid(x, y, i, newDistr);
+			}
+			
+			if (fabsf(currentDistrSum - newDistrSum) > 0.001f)
+			{
+				std::cout << "Collision step created new particles" << std::endl;
+				std::cout << "Old distribution sum: " << currentDistrSum << std::endl;
+				std::cout << "New distribution sum: " << newDistrSum << std::endl;
+				std::cout << "Location: (" << x << ", " << y << ")" << std::endl;
+				exit(1);
 			}
 		}
 	}
@@ -157,13 +194,12 @@ void BoltzmannGridD2Q9::boundaryStep()
 BoltzmannGridD2Q9::real BoltzmannGridD2Q9::equilibriumDistributionFunction(int i, float rho, real u[2])
 {
 	real weight = static_cast<real>(weights[i]);
-	real csSqr = static_cast<real>(1.0 / 3.0);
 
-	real dotProductDirU = directions[i * 2] * u[0] + directions[i * 2 + 1] * u[1];
+	real dotProductDirU = velocities[i * 2] * u[0] + velocities[i * 2 + 1] * u[1];
 	real dotProductUU = u[0] * u[0] + u[1] * u[1];
-	real term1 = dotProductDirU / (csSqr);
-	real term2 = (dotProductDirU * dotProductDirU) / (2 * csSqr * csSqr);
-	real term3 = dotProductUU / (2 * csSqr);
+	real term1 = 3 * dotProductDirU / (cSquare);
+	real term2 = 9 * (dotProductDirU * dotProductDirU) / (2 * cSquare * cSquare);
+	real term3 = 3 * dotProductUU / (2 * cSquare);
 	return weight * rho * (1 + term1 + term2 - term3);
 }
 
@@ -178,8 +214,8 @@ void BoltzmannGridD2Q9::calcRhoAndU(int x, int y, real& rho, real u[2])
 		real value = getValue(x, y, i);
 		rho += value;
 
-		u[0] += directions[i * 2] * value;
-		u[1] += directions[i * 2 + 1] * value;
+		u[0] += velocities[i * 2] * value;
+		u[1] += velocities[i * 2 + 1] * value;
 	}
 
 	if (rho > 0.0) {
