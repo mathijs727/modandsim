@@ -30,6 +30,10 @@ pkg_search_module(GLFW REQUIRED glfw3)
 
 include_directories(${GLFW_INCLUDE_DIRS})
 include_directories(${GLEW_INCLUDE_DIRS})
+if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+   # Mac OS X fucked up overnight
+   link_directories(/usr/local/lib)
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
 
 add_executable(boltzmann ${SOURCE_FILES})
 target_link_libraries(boltzmann ${OPENGL_LIBRARY} ${GLEW_LIBRARIES} ${GLFW_STATIC_LIBRARIES})
