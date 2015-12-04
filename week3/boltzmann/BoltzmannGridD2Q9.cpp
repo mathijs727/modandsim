@@ -149,18 +149,20 @@ void BoltzmannGridD2Q9::streamStep()
 	{
 		for (int x = 0; x < m_width; x++)
 		{
-			for (int i = 0; i < 9; i++)
+			if (getBoundaryType(x, y) == NoBoundary)
 			{
-				int fromX = x - directions[i * 2];
-				int fromY = y - directions[i * 2 + 1];
-
-				if (getBoundaryType(fromX, fromY) == NoBoundary)
+				for (int i = 0; i < 9; i++)
 				{
-					real val = getValue(fromX, fromY, i);
-					setValueNewGrid(x, y, i, val);
-				}
-				else {
-					setValueNewGrid(x, y, i, 0.0);
+					int fromX = x - directions[i * 2];
+					int fromY = y - directions[i * 2 + 1];
+
+					if (fromX >= 0 && fromX < m_width && fromY >= 0 && fromY < m_height && getBoundaryType(fromX, fromY) == NoBoundary)
+					{
+						setValueNewGrid(x, y, i, getValue(fromX, fromY, i));
+					}
+					else {
+						setValueNewGrid(x, y, i, getValue(x, y, i));
+					}
 				}
 			}
 		}

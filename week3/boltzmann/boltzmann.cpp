@@ -8,13 +8,6 @@
 
 #include <chrono>
 #include <iostream>
-#ifdef WIN32
-#include <windows.h>
-#elif _POSIX_C_SOURCE >= 199309L
-#include <time.h>   // for nanosleep
-#else
-#include <unistd.h> // for usleep
-#endif
 
 void setupOpenGL()
 {
@@ -93,27 +86,16 @@ int main(int argc, char** argv)
 	shader.bind();
 
 	FPSCounter fpsCounter = FPSCounter();
+	fpsCounter.setFPSLock(60);
+
 	while (!window.shouldClose())
-	//for (int i = 0; i < 20; i++)
 	{
-		int milliseconds = 80;
-#ifdef WIN32
-		Sleep(milliseconds);
-#elif _POSIX_C_SOURCE >= 199309L
-		struct timespec ts;
-    	ts.tv_sec = milliseconds / 1000;
-    	ts.tv_nsec = (milliseconds % 1000) * 1000000;
-    	nanosleep(&ts, NULL);
-#else
-		//usleep(milliseconds * 1000);
-#endif
 		Window::pollEvents();
 		fpsCounter.update();
 
-		//TODO: Boundaries
+		grid.collsionStep();
 		grid.streamStep();
 		grid.boundaryStep();
-		grid.collsionStep();
 		grid.createTexture(boltzmannTexture);
 
 		texture.unbind();
