@@ -15,11 +15,6 @@ const int directions[] = {
 	0, -1,
 	1, -1
 };
-float R = 8.3144621f;
-float T = 293.f;
-float c = 1.f;//sqrtf(3 * R * T);
-float cSquare = 1.f;//3 * R * T;
-int velocities[18];
 const float weights[] = {
 	4. / 9.,
 	1. / 9.,
@@ -46,11 +41,6 @@ BoltzmannGridD2Q9::BoltzmannGridD2Q9(real tau, int width, int height, real* data
 
 	memcpy(m_data[0], data, sizeof(real) * m_size * 9);
 	memcpy(m_boundaries, boundaries, sizeof(BoundaryType) * m_size);
-	
-	for (int i = 0; i < 18; i++)
-	{
-		velocities[i] = c * directions[i];
-	}
 }
 
 BoltzmannGridD2Q9::~BoltzmannGridD2Q9()
@@ -132,7 +122,7 @@ void BoltzmannGridD2Q9::collsionStep()
 				setValueCurrentGrid(x, y, i, newDistr);
 			}
 			
-			if (fabsf(currentDistrSum - newDistrSum) > 0.001f)
+			if (fabsf(currentDistrSum - newDistrSum) > 0.0001f)
 			{
 				std::cout << "Collision step created new particles" << std::endl;
 				std::cout << "Old distribution sum: " << currentDistrSum << std::endl;
@@ -195,11 +185,11 @@ BoltzmannGridD2Q9::real BoltzmannGridD2Q9::equilibriumDistributionFunction(int i
 {
 	real weight = static_cast<real>(weights[i]);
 
-	real dotProductDirU = velocities[i * 2] * u[0] + velocities[i * 2 + 1] * u[1];
+	real dotProductDirU = directions[i * 2] * u[0] + directions[i * 2 + 1] * u[1];
 	real dotProductUU = u[0] * u[0] + u[1] * u[1];
-	real term1 = 3 * dotProductDirU / (cSquare);
-	real term2 = 9 * (dotProductDirU * dotProductDirU) / (2 * cSquare * cSquare);
-	real term3 = 3 * dotProductUU / (2 * cSquare);
+	real term1 = 3 * dotProductDirU;
+	real term2 = (real)4.5 * dotProductDirU * dotProductDirU;
+	real term3 = (real)1.5 * dotProductUU;
 	return weight * rho * (1 + term1 + term2 - term3);
 }
 
@@ -214,8 +204,8 @@ void BoltzmannGridD2Q9::calcRhoAndU(int x, int y, real& rho, real u[2])
 		real value = getValue(x, y, i);
 		rho += value;
 
-		u[0] += velocities[i * 2] * value;
-		u[1] += velocities[i * 2 + 1] * value;
+		u[0] += directions[i * 2] * value;
+		u[1] += directions[i * 2 + 1] * value;
 	}
 
 	if (rho > 0.0) {
