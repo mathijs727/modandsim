@@ -66,6 +66,9 @@ void BoltzmannGridD2Q9::createTexture(char* texture)
 				if (sum < 0.0f && sum > 1.0f)
 				{
 					std::cout << "Value in (" << x << ", " << y << ") = " << sum << std::endl;
+#ifdef _WIN32
+					system("PAUSE");
+#endif
 					exit(1);
 				}
 
@@ -116,6 +119,9 @@ void BoltzmannGridD2Q9::collsionStep()
 					std::cout << "New distribution: " << newDistr << std::endl;
 					std::cout << "U: (" << u[0] << ", " << u[1] << ")" << std::endl;
 					std::cout << "Rho: " << rho << std::endl;
+#ifdef _WIN32
+					system("PAUSE");
+#endif
 					exit(1);
 				}
 
@@ -128,6 +134,9 @@ void BoltzmannGridD2Q9::collsionStep()
 				std::cout << "Old distribution sum: " << currentDistrSum << std::endl;
 				std::cout << "New distribution sum: " << newDistrSum << std::endl;
 				std::cout << "Location: (" << x << ", " << y << ")" << std::endl;
+#ifdef _WIN32
+				system("PAUSE");
+#endif
 				exit(1);
 			}
 		}
@@ -145,7 +154,7 @@ void BoltzmannGridD2Q9::streamStep()
 				int fromX = x - directions[i * 2];
 				int fromY = y - directions[i * 2 + 1];
 
-				if (fromX >= 0 && fromX < m_width && fromY >= 0 && fromY < m_height)
+				if (getBoundaryType(fromX, fromY) == NoBoundary)
 				{
 					real val = getValue(fromX, fromY, i);
 					setValueNewGrid(x, y, i, val);
