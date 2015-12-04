@@ -86,17 +86,17 @@ int main(int argc, char** argv)
 	shader.bind();
 
 	FPSCounter fpsCounter = FPSCounter();
-	//fpsCounter.setFPSLock(60);
 
 	while (!window.shouldClose())
 	{
 		Window::pollEvents();
-		fpsCounter.update();
-
+		
 		grid.collsionStep();
 		grid.streamStep();
 		//grid.boundaryStep();
 		grid.createTexture(boltzmannTexture);
+
+		fpsCounter.update();
 
 		texture.unbind();
 		texture.update(imageWidth, imageHeight, boltzmannTexture);

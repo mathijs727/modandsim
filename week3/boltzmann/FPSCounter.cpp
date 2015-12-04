@@ -42,10 +42,4 @@ void FPSCounter::update()
 		m_microsecondsPassed -= 1000000;
 		m_framesPassed = 0;
 	}
-
-	if (m_fpsLock > 0)
-	{
-		int desiredFrametime = 1000000 / m_fpsLock;
-		sleepMilliseconds(max(0, (desiredFrametime - frameTimeMicroseconds) / 1000));
-	}
 }
