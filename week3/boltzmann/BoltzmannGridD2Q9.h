@@ -10,9 +10,7 @@ public:
 	enum BoundaryType
 	{
 		NoBoundary,
-		BounceBackBoundary,
-		Generator,
-		Drain
+		BounceBackBoundary
 	};
 private:
 	real m_tau;
