@@ -6,6 +6,8 @@
 #include "FPSCounter.h"
 #include "BoltzmannGridD2Q9.h"
 
+#include <iostream>
+
 void setupOpenGL()
 {
 	glEnable(GL_TEXTURE_2D);
@@ -34,32 +36,54 @@ int main(int argc, char** argv)
 		for (int x = 0; x < imageWidth; x++)
 		{
 			boundaries[y * imageWidth + x] = BoltzmannGridD2Q9::NoBoundary;
-			if (x > 10 && x < imageWidth-10 && y > 10 && y < imageHeight-10)
+
+			if (x > 10 && x < 40 && y > 10 && y < 40)
 			{
 				for (int i = 0; i < 9; i++) {
-					int index = i * (imageWidth * imageHeight) + y * imageWidth + x;
-					initialValues[index] = 1. / 9.;
+					int index = y * imageWidth * 9 + x * 9 + i;
+					initialValues[index] = 1. / 14.;
 				}
 			} else {
 				for (int i = 0; i < 9; i++) {
-					int index = i * (imageWidth * imageHeight) + y * imageWidth + x;
-					initialValues[index] = 1. / 7.;
+					int index = y * imageWidth * 9 + x * 9 + i;
+					initialValues[index] = 1. / 9.;
 				}
 			}
 		}
 	}
 
 	// Create boundary at edge of grid
-	for (int y = 0; y < imageHeight; y++)
-	{
+	for (int y = 0; y < imageHeight; y++) {
 		boundaries[y * imageWidth + 0] = BoltzmannGridD2Q9::BounceBackBoundary;
-		boundaries[y * imageWidth + imageWidth-1] = BoltzmannGridD2Q9::BounceBackBoundary;
+		boundaries[y * imageWidth + imageWidth - 1] = BoltzmannGridD2Q9::BounceBackBoundary;
 	}
 	for (int x = 0; x < imageWidth; x++)
 	{
 		boundaries[x] = BoltzmannGridD2Q9::BounceBackBoundary;
 		boundaries[(imageHeight-1) * imageWidth + x] = BoltzmannGridD2Q9::BounceBackBoundary;
 	}
+
+	// Generate circle object in the middle
+	int diameter = 10;
+	int centerWidth = imageWidth / 2;
+	int centerHeight = imageHeight / 2;
+	for (int y = 0; y < imageHeight; y++) {
+		for (int x = 0; x < imageWidth; x++) {
+			int dx = x - centerWidth;
+			int dy = y - centerHeight;
+			if (dx*dx + dy*dy < diameter*diameter)
+			{
+				//boundaries[y * imageWidth + x] = BoltzmannGridD2Q9::BounceBackBoundary;
+			}
+		}
+	}
+
+	// Create generator and drain
+	for (int y = 1; y < imageHeight-1; y++) {
+		//boundaries[y * imageWidth + 1] = BoltzmannGridD2Q9::Generator;
+		//boundaries[y * imageWidth + imageWidth-2] = BoltzmannGridD2Q9::Drain;
+	}
+
 
 	BoltzmannGridD2Q9 grid = BoltzmannGridD2Q9(1.0f, imageWidth, imageHeight, initialValues, boundaries);
 	delete[] initialValues;

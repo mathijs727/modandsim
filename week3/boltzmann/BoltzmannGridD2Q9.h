@@ -11,7 +11,8 @@ public:
 	{
 		NoBoundary,
 		BounceBackBoundary,
-		SlipBoundary
+		Generator,
+		Drain
 	};
 private:
 	real m_tau;
@@ -31,17 +32,17 @@ private:
 
 	inline real getValue(int x, int y, int i)
 	{
-		return m_data[m_curData][i * m_size + y * m_width + x];
+		return m_data[m_curData][y * m_width * 9 + x * 9 + i];
 	}
 
 	inline void setValueCurrentGrid(int x, int y, int i, real value)
 	{
-		m_data[m_curData][i * m_size + y * m_width + x] = value;
+		m_data[m_curData][y * m_width * 9 + x * 9 + i] = value;
 	}
 	
 	inline void setValueNewGrid(int x, int y, int i, real value)
 	{
-		m_data[(m_curData + 1) % 2][i * m_size + y * m_width + x] = value;
+		m_data[(m_curData + 1) % 2][y * m_width * 9 + x * 9 + i] = value;
 	}
 
 	inline BoundaryType getBoundaryType(int x, int y)

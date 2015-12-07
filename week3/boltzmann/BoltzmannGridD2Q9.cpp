@@ -56,19 +56,18 @@ void BoltzmannGridD2Q9::createTexture(char* texture)
 	{
 		for (int x = 0; x < m_width; x++)
 		{
-			if (getBoundaryType(x, y) == NoBoundary)
+			BoundaryType boundary = getBoundaryType(x, y);
+			if (boundary == NoBoundary)
 			{
 				real sum = 0.0;
 				for (int i = 0; i < 9; i++) {
 					sum += getValue(x, y, i);
 				}
 
-				if (sum < 0.0f && sum > 1.0f)
-				{
-					std::cout << "Value in (" << x << ", " << y << ") = " << sum << std::endl;
-#ifdef _WIN32
-					system("PAUSE");
-#endif
+				if (sum > 2.0 || sum < 0.0) {
+					std::cout << "Values are exploding: " << std::endl;
+					std::cout << "Location: (" << x << ", " << y << ")" << std::endl;
+					std::cout << "Sum: " << sum << std::endl;
 					exit(1);
 				}
 
@@ -76,9 +75,17 @@ void BoltzmannGridD2Q9::createTexture(char* texture)
 				texture[(y * m_width + x) * 4 + 0] = 0;
 				texture[(y * m_width + x) * 4 + 1] = 0;
 				texture[(y * m_width + x) * 4 + 2] = value;
-			} else {
+			} else if (boundary == BounceBackBoundary) {
 				texture[(y * m_width + x) * 4 + 0] = (char)255;
 				texture[(y * m_width + x) * 4 + 1] = 0;
+				texture[(y * m_width + x) * 4 + 2] = 0;
+			} else if (boundary == Generator) {
+				texture[(y * m_width + x) * 4 + 0] = 0;
+				texture[(y * m_width + x) * 4 + 1] = (char)200;
+				texture[(y * m_width + x) * 4 + 2] = (char)150;
+			} else if (boundary == Drain) {
+				texture[(y * m_width + x) * 4 + 0] = (char)100;
+				texture[(y * m_width + x) * 4 + 1] = (char)100;
 				texture[(y * m_width + x) * 4 + 2] = 0;
 			}
 		}
@@ -91,53 +98,19 @@ void BoltzmannGridD2Q9::collsionStep()
 	{
 		for (int x = 1; x < m_width - 1; x++)
 		{
-			if (getBoundaryType(x, y) != NoBoundary)
-			{
-				continue;
-			}
-			
-			real rho;
-			real u[2];
-			calcRhoAndU(x, y, rho, u);
+			if (getBoundaryType(x, y) == NoBoundary) {
 
-			real currentDistrSum = 0.0;
-			real newDistrSum = 0.0;
-			for (int i = 0; i < 9; i++) {
-				real eqDistr = equilibriumDistributionFunction(i, rho, u);
-				real curDistr = getValue(x, y, i);
-				real newDistr = curDistr - ((real)1.0 / m_tau) * (curDistr - eqDistr);
+				real rho;
+				real u[2];
+				calcRhoAndU(x, y, rho, u);
 
-				currentDistrSum += curDistr;
-				newDistrSum += newDistr;
-				
-				if (newDistr < 0.0f)
-				{
-					std::cout << "Location: " << x << ", " << y << std::endl;
-					std::cout << "i = " << i << std::endl;
-					std::cout << "Current distribution: " << curDistr << std::endl;
-					std::cout << "Equilibrium distribution: " << eqDistr << std::endl;
-					std::cout << "New distribution: " << newDistr << std::endl;
-					std::cout << "U: (" << u[0] << ", " << u[1] << ")" << std::endl;
-					std::cout << "Rho: " << rho << std::endl;
-#ifdef _WIN32
-					system("PAUSE");
-#endif
-					exit(1);
+				for (int i = 0; i < 9; i++) {
+					real eqDistr = equilibriumDistributionFunction(i, rho, u);
+					real curDistr = getValue(x, y, i);
+					real newDistr = curDistr - ((real) 1.0 / m_tau) * (curDistr - eqDistr);
+
+					setValueCurrentGrid(x, y, i, newDistr);
 				}
-
-				setValueCurrentGrid(x, y, i, newDistr);
-			}
-			
-			if (fabsf(currentDistrSum - newDistrSum) > 0.0001f)
-			{
-				std::cout << "Collision step created new particles" << std::endl;
-				std::cout << "Old distribution sum: " << currentDistrSum << std::endl;
-				std::cout << "New distribution sum: " << newDistrSum << std::endl;
-				std::cout << "Location: (" << x << ", " << y << ")" << std::endl;
-#ifdef _WIN32
-				system("PAUSE");
-#endif
-				exit(1);
 			}
 		}
 	}
@@ -156,12 +129,19 @@ void BoltzmannGridD2Q9::streamStep()
 					int fromX = x - directions[i * 2];
 					int fromY = y - directions[i * 2 + 1];
 
-					if (fromX >= 0 && fromX < m_width && fromY >= 0 && fromY < m_height && getBoundaryType(fromX, fromY) == NoBoundary)
-					{
-						setValueNewGrid(x, y, i, getValue(fromX, fromY, i));
-					}
-					else {
-						setValueNewGrid(x, y, i, getValue(x, y, i));
+					if (fromX >= 0 && fromX < m_width && fromY >= 0 && fromY < m_height) {
+						BoundaryType boundary = getBoundaryType(fromX, fromY);
+						if (boundary == NoBoundary) {
+							setValueNewGrid(x, y, i, getValue(fromX, fromY, i));
+						} else if (boundary == BounceBackBoundary)
+						{
+							setValueNewGrid(x, y, i, getValue(x, y, i));
+						} else if (boundary == Generator)
+						{
+							setValueNewGrid(x, y, i, 0.8);
+						} else {
+							setValueNewGrid(x, y, i, 0.0);
+						}
 					}
 				}
 			}
