@@ -37,31 +37,31 @@ int main(int argc, char** argv)
 		{
 			boundaries[y * imageWidth + x] = BoltzmannGridD2Q9::NoBoundary;
 
-			if (x > 10 && x < 40 && y > 10 && y < 40)
+			/*if (x > 10 && x < 40 && y > 10 && y < 40)
 			{
-				for (int i = 0; i < 9; i++) {
-					int index = y * imageWidth * 9 + x * 9 + i;
-					initialValues[index] = 1. / 14.;
-				}
-			} else {
 				for (int i = 0; i < 9; i++) {
 					int index = y * imageWidth * 9 + x * 9 + i;
 					initialValues[index] = 1. / 9.;
 				}
-			}
+			} else {*/
+				for (int i = 0; i < 9; i++) {
+					int index = y * imageWidth * 9 + x * 9 + i;
+					initialValues[index] = 1. / 14.;
+				}
+			//}
 		}
 	}
 
 	// Create boundary at edge of grid
-	for (int y = 0; y < imageHeight; y++) {
+	/*for (int y = 0; y < imageHeight; y++) {
 		boundaries[y * imageWidth + 0] = BoltzmannGridD2Q9::BounceBackBoundary;
 		boundaries[y * imageWidth + imageWidth - 1] = BoltzmannGridD2Q9::BounceBackBoundary;
 	}
-	for (int x = 0; x < imageWidth; x++)
+	*for (int x = 0; x < imageWidth; x++)
 	{
 		boundaries[x] = BoltzmannGridD2Q9::BounceBackBoundary;
 		boundaries[(imageHeight-1) * imageWidth + x] = BoltzmannGridD2Q9::BounceBackBoundary;
-	}
+	}*/
 
 	// Generate circle object in the middle
 	int diameter = 10;
@@ -73,7 +73,7 @@ int main(int argc, char** argv)
 			int dy = y - centerHeight;
 			if (dx*dx + dy*dy < diameter*diameter)
 			{
-				//boundaries[y * imageWidth + x] = BoltzmannGridD2Q9::BounceBackBoundary;
+				boundaries[y * imageWidth + x] = BoltzmannGridD2Q9::BounceBackBoundary;
 			}
 		}
 	}

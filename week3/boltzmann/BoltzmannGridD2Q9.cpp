@@ -59,26 +59,35 @@ void BoltzmannGridD2Q9::createTexture(char* texture)
 			BoundaryType boundary = getBoundaryType(x, y);
 			if (boundary == NoBoundary)
 			{
-				real sum = 0.0;
+				/*real sum = 0.0;
 				for (int i = 0; i < 9; i++) {
 					sum += getValue(x, y, i);
 				}
 
-				if (sum > 2.0 || sum < 0.0) {
+				if (sum > 5.0 || sum < 0.0) {
 					std::cout << "Values are exploding: " << std::endl;
 					std::cout << "Location: (" << x << ", " << y << ")" << std::endl;
 					std::cout << "Sum: " << sum << std::endl;
 					exit(1);
 				}
 
-				char value = char(sum * 150);
+				char value = char(sum * 100);*/
+				real sumX = 0.0;
+				real sumY = 0.0;
+				for (int i = 0; i < 9; i++)
+				{
+					sumX += directions[i*2] * getValue(x, y, i);
+					sumY += directions[i*2+1] * getValue(x, y, i);
+				}
+
+				char value = char(sqrtf(sumX*sumX + sumY * sumY)*200);
 				texture[(y * m_width + x) * 4 + 0] = 0;
 				texture[(y * m_width + x) * 4 + 1] = 0;
 				texture[(y * m_width + x) * 4 + 2] = value;
 			} else if (boundary == BounceBackBoundary) {
-				texture[(y * m_width + x) * 4 + 0] = (char)255;
-				texture[(y * m_width + x) * 4 + 1] = 0;
-				texture[(y * m_width + x) * 4 + 2] = 0;
+				texture[(y * m_width + x) * 4 + 0] = (char)100;
+				texture[(y * m_width + x) * 4 + 1] = (char)150;
+				texture[(y * m_width + x) * 4 + 2] = (char)100;
 			} else if (boundary == Generator) {
 				texture[(y * m_width + x) * 4 + 0] = 0;
 				texture[(y * m_width + x) * 4 + 1] = (char)200;
@@ -129,18 +138,22 @@ void BoltzmannGridD2Q9::streamStep()
 					int fromX = x - directions[i * 2];
 					int fromY = y - directions[i * 2 + 1];
 
-					if (fromX >= 0 && fromX < m_width && fromY >= 0 && fromY < m_height) {
+					if (fromY == -1 || fromY == m_height)
+					{
+						setValueNewGrid(x, y, i, getValue(x, y, i));
+					} else if (fromX == -1)
+					{
+						setValueNewGrid(x, y, i, 0.2);
+					} else if (fromX == m_width)
+					{
+						setValueNewGrid(x, y, i, getValue(x, fromY, i));//fmaxf(0.05,getValue(x, fromY, i)-0.1));
+					} else {
 						BoundaryType boundary = getBoundaryType(fromX, fromY);
 						if (boundary == NoBoundary) {
 							setValueNewGrid(x, y, i, getValue(fromX, fromY, i));
 						} else if (boundary == BounceBackBoundary)
 						{
 							setValueNewGrid(x, y, i, getValue(x, y, i));
-						} else if (boundary == Generator)
-						{
-							setValueNewGrid(x, y, i, 0.8);
-						} else {
-							setValueNewGrid(x, y, i, 0.0);
 						}
 					}
 				}
