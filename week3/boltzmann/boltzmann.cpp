@@ -6,17 +6,12 @@
 #include "FPSCounter.h"
 #include "BoltzmannGridD2Q9.h"
 
-#include <chrono>
-#include <iostream>
-
 void setupOpenGL()
 {
 	glEnable(GL_TEXTURE_2D);
 	glActiveTexture(GL_TEXTURE0);
 	glClearColor(0.3f, 0.8f, 0.2f, 1.0f);
 }
-
-typedef float real;
 
 int main(int argc, char** argv)
 {
@@ -93,7 +88,6 @@ int main(int argc, char** argv)
 		
 		grid.collsionStep();
 		grid.streamStep();
-		//grid.boundaryStep();
 		grid.createTexture(boltzmannTexture);
 
 		fpsCounter.update();

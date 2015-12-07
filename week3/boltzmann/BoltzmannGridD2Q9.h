@@ -1,7 +1,8 @@
 #pragma once
-
 #include <math.h>
 #include <iostream>
+
+typedef float real;
 
 class BoltzmannGridD2Q9
 {
@@ -13,8 +14,6 @@ public:
 		SlipBoundary
 	};
 private:
-	typedef float real;
-
 	real m_tau;
 	int m_width, m_height, m_size;
 	int m_curData;
@@ -26,7 +25,6 @@ public:
 	void createTexture(char* texture);
 	void collsionStep();
 	void streamStep();
-	void boundaryStep();
 private:
 	real equilibriumDistributionFunction(int i, float rho, real u[2]);
 	void calcRhoAndU(int x, int y, real& rho, real u[2]);

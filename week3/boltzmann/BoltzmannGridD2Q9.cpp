@@ -15,7 +15,7 @@ const int directions[] = {
 	0, -1,
 	1, -1
 };
-const float weights[] = {
+const real weights[] = {
 	4. / 9.,
 	1. / 9.,
 	1. / 36.,
@@ -170,29 +170,7 @@ void BoltzmannGridD2Q9::streamStep()
 	m_curData = (m_curData + 1) % 2;
 }
 
-void BoltzmannGridD2Q9::boundaryStep()
-{
-	for (int y = 0; y < m_height; y++)
-	{
-		for (int x = 0; x < m_width; x++)
-		{
-			BoundaryType type = getBoundaryType(x, y);
-			if (type == BounceBackBoundary)
-			{
-				for (int i = 0; i < 9; i++)
-				{
-					real value = getValue(x, y, i);
-					int moveToX = x - directions[i * 2];
-					int moveToY = y - directions[i * 2 + 1];
-					int newDir = 1 + (i + 3) % 8;
-					setValueCurrentGrid(moveToX, moveToY, newDir, value);
-				}
-			}
-		}
-	}
-}
-
-BoltzmannGridD2Q9::real BoltzmannGridD2Q9::equilibriumDistributionFunction(int i, float rho, real u[2])
+real BoltzmannGridD2Q9::equilibriumDistributionFunction(int i, float rho, real u[2])
 {
 	real weight = static_cast<real>(weights[i]);
 
