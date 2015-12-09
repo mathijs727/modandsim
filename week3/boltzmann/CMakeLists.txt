@@ -31,13 +31,19 @@ pkg_search_module(GLFW REQUIRED glfw3)
 
 include_directories(${GLFW_INCLUDE_DIRS})
 include_directories(${GLEW_INCLUDE_DIRS})
+
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
    # Mac OS X fucked up overnight
    link_directories(/usr/local/lib)
-   #OpenMP
+   # Clang doesnt support OpenMP so use gcc 5 on OS X
    set(CMAKE_CXX_COMPILER "g++-mp-5")
-   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --disable-asm")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
 
-add_executable(boltzmann ${SOURCE_FILES})
-target_link_libraries(boltzmann ${OPENGL_LIBRARY} ${GLEW_LIBRARIES} ${GLFW_STATIC_LIBRARIES})
+
+add_executable(boltzmann-openmp ${SOURCE_FILES})
+target_compile_definitions(boltzmann-openmp PRIVATE OPENMP_ENABLED=1)
+target_link_libraries(boltzmann-openmp ${OPENGL_LIBRARY} ${GLEW_LIBRARIES} ${GLFW_STATIC_LIBRARIES})
+
+
+add_executable(boltzmann-sequential ${SOURCE_FILES})
+target_link_libraries(boltzmann-sequential ${OPENGL_LIBRARY} ${GLEW_LIBRARIES} ${GLFW_STATIC_LIBRARIES})

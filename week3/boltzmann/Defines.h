@@ -1,3 +1,3 @@
 #define GLEW_STATIC
 #define _GLIBCXX_USE_CXX11_ABI 1
-#define OPENMP_ENABLED 1
+//#define OPENMP_ENABLED 1

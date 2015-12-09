@@ -29,7 +29,7 @@ int main(int argc, char** argv)
 	char* boltzmannTexture = new char[imageWidth * imageHeight * 4];
 	BoltzmannGridD2Q9::BoundaryType* boundaries = new BoltzmannGridD2Q9::BoundaryType[imageWidth * imageHeight];
 	real* initialValues = new real[imageWidth * imageHeight * 9];
-	
+
 	// Initial values
 	for (int y = 0; y < imageHeight; y++)
 	{
