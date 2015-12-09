@@ -1,8 +1,14 @@
 #include "BoltzmannGridD2Q9.h"
+#include "Defines.h"
 
 #include <iostream>
 #include <cstring>
 #include <math.h>
+#include <thread>
+
+#ifdef OPENMP_ENABLED
+#include <omp.h>
+#endif
 
 const int directions[] = {
 	0, 0,
@@ -52,6 +58,7 @@ BoltzmannGridD2Q9::~BoltzmannGridD2Q9()
 
 void BoltzmannGridD2Q9::createTexture(char* texture)
 {
+	#pragma omp parallel for
 	for (int y = 0; y < m_height; y++)
 	{
 		for (int x = 0; x < m_width; x++)
@@ -82,6 +89,9 @@ void BoltzmannGridD2Q9::createTexture(char* texture)
 
 void BoltzmannGridD2Q9::collsionStep()
 {
+	#ifdef OPENMP_ENABLED
+	#pragma omp parallel for
+	#endif
 	for (int y = 1; y < m_height - 1; y++)
 	{
 		for (int x = 1; x < m_width - 1; x++)
@@ -106,6 +116,9 @@ void BoltzmannGridD2Q9::collsionStep()
 
 void BoltzmannGridD2Q9::streamStep()
 {
+	#ifdef OPENMP_ENABLED
+	#pragma omp parallel for
+	#endif
 	for (int y = 0; y < m_height; y++)
 	{
 		for (int x = 0; x < m_width; x++)

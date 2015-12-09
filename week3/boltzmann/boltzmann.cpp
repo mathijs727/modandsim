@@ -1,4 +1,4 @@
-#define GLEW_STATIC
+#include "Defines.h"
 #include "Window.h"
 #include "ShaderProgram.h"
 #include "VertexBuffer.h"

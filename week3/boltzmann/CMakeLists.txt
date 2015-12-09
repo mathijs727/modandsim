@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 project(boltzmann)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fopenmp")
 
 set(SOURCE_FILES
         boltzmann.cpp
@@ -18,7 +18,8 @@ set(SOURCE_FILES
         FPSCounter.cpp
         FPSCounter.h
         BoltzmannGridD2Q9.cpp
-        BoltzmannGridD2Q9.h)
+        BoltzmannGridD2Q9.h
+        Defines.h)
 
 include_directories(libs/include glm)
 
@@ -33,6 +34,9 @@ include_directories(${GLEW_INCLUDE_DIRS})
 if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
    # Mac OS X fucked up overnight
    link_directories(/usr/local/lib)
+   #OpenMP
+   set(CMAKE_CXX_COMPILER "g++-mp-5")
+   #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --disable-asm")
 endif(${CMAKE_SYSTEM_NAME} MATCHES "Darwin") 
 
 add_executable(boltzmann ${SOURCE_FILES})
