@@ -5,6 +5,7 @@
 #include "Texture.h"
 #include "FPSCounter.h"
 #include "BoltzmannGridD2Q9.h"
+#include "ImageShape.h"
 
 #include <iostream>
 
@@ -24,8 +25,8 @@ int main(int argc, char** argv)
 		Vertex{ glm::vec2(1.0f, -1.0f), glm::vec2(1.0f, 0.0f) }
 	};
 
-	const int imageWidth = 200;
-	const int imageHeight = 100;
+	const int imageWidth = 400;
+	const int imageHeight = 200;
 	char* boltzmannTexture = new char[imageWidth * imageHeight * 4];
 	BoltzmannGridD2Q9::BoundaryType* boundaries = new BoltzmannGridD2Q9::BoundaryType[imageWidth * imageHeight];
 	real* initialValues = new real[imageWidth * imageHeight * 9];
@@ -44,7 +45,7 @@ int main(int argc, char** argv)
 	}
 
 	// Generate circle object in the middle
-	int diameter = 10;
+/*	int diameter = 10;
 	int centerWidth = 20;//imageWidth / 2;
 	int centerHeight = imageHeight / 2;
 	for (int y = 0; y < imageHeight; y++) {
@@ -56,8 +57,9 @@ int main(int argc, char** argv)
 				boundaries[y * imageWidth + x] = BoltzmannGridD2Q9::BounceBackBoundary;
 			}
 		}
-	}
-
+	}*/
+	ImageShape object = ImageShape("airfoil.png");
+	object.createBoundaries(boundaries, imageWidth, imageHeight, 0, 30);
 
 	BoltzmannGridD2Q9 grid = BoltzmannGridD2Q9(1.0f, imageWidth, imageHeight, initialValues, boundaries);
 	delete[] initialValues;

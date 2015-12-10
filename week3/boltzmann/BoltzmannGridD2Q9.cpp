@@ -74,7 +74,7 @@ void BoltzmannGridD2Q9::createTexture(char* texture)
 					sumY += directions[i*2+1] * getValue(x, y, i);
 				}
 
-				char value = char(sqrt(sumX*sumX + sumY*sumY)*200);
+				char value = char(sqrt(sumX*sumX + sumY*sumY)*150);
 				texture[(y * m_width + x) * 4 + 0] = 0;
 				texture[(y * m_width + x) * 4 + 1] = 0;
 				texture[(y * m_width + x) * 4 + 2] = value;
@@ -135,10 +135,10 @@ void BoltzmannGridD2Q9::streamStep()
 						setValueNewGrid(x, y, i, getValue(x, y, i));
 					} else if (fromX == -1)
 					{
-						setValueNewGrid(x, y, i, 0.2);
+						setValueNewGrid(x, y, i, 0.1);
 					} else if (fromX == m_width)
 					{
-						setValueNewGrid(x, y, i, getValue(x, fromY, i));//fmaxf(0.05,getValue(x, fromY, i)-0.1));
+						setValueNewGrid(x, y, i, getValue(x, fromY, i));
 					} else {
 						BoundaryType boundary = getBoundaryType(fromX, fromY);
 						if (boundary == NoBoundary) {
