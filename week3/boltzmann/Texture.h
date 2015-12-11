@@ -9,6 +9,8 @@ public:
 	Texture(int width, int height, const void* data);
 	~Texture();
 
+	void update(int width, int height, const void* data);
+
 	void bind() const;
 	static void unbind();
 };

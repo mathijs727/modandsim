@@ -21,6 +21,10 @@ ShaderProgram::ShaderProgram(const std::string& vertexShaderFilepath, const std:
 	glAttachShader(m_program, fragmentShader);
 	compileProgram();
 
+	// OpenGL 1.4 ;(
+	glBindAttribLocation(m_program, 0, "a_position");
+	glBindAttribLocation(m_program, 1, "a_texCoord");
+
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 }
