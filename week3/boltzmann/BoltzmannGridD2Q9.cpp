@@ -53,7 +53,7 @@ BoltzmannGridD2Q9::BoltzmannGridD2Q9(real tau, int width, int height, BoundaryTy
 		{
 			for (int i = 0; i < 9; i++)
 			{
-				setValueCurrentGrid(x, y, i, 0.1);
+				setValueCurrentGrid(x, y, i, 0.01);
 			}
 		}
 	}
@@ -85,20 +85,20 @@ void BoltzmannGridD2Q9::createTexture(char* texture)
 				}
 
 				real velocity = sqrt(sumX*sumX + sumY*sumY);
-				char value = static_cast<char>(velocity * 400);
-				if (velocity > 5.)
+				char value = static_cast<char>(velocity * 3000);
+				if (velocity > 1.)
 				{
-					std::cout << "kggggggg" << std::endl;
-					std::cout << "v = " << sqrt(sumX*sumX + sumY*sumY) << std::endl;
+					std::cout << "The simulation is going crazy!" << std::endl;
+					std::cout << "Velocity: " << velocity << std::endl;
 					exit(1);
 				}
 				texture[(y * m_width + x) * 4 + 0] = 0;
 				texture[(y * m_width + x) * 4 + 1] = value;
 				texture[(y * m_width + x) * 4 + 2] = value;
 			} else if (boundary == BounceBackBoundary) {
-				texture[(y * m_width + x) * 4 + 0] = (char)100;
-				texture[(y * m_width + x) * 4 + 1] = (char)150;
-				texture[(y * m_width + x) * 4 + 2] = (char)100;
+				texture[(y * m_width + x) * 4 + 0] = (char)200;
+				texture[(y * m_width + x) * 4 + 1] = (char)100;
+				texture[(y * m_width + x) * 4 + 2] = 0;
 			}
 		}
 	}
@@ -152,7 +152,7 @@ void BoltzmannGridD2Q9::streamStep()
 						setValueNewGrid(x, y, i, getValue(x, y, i));
 					} else if (fromX == -1)
 					{
-						setValueNewGrid(x, y, i, 0.1);
+						setValueNewGrid(x, y, i, 0.01);
 					} else if (fromX == m_width)
 					{
 						setValueNewGrid(x, y, i, getValue(x, fromY, i));

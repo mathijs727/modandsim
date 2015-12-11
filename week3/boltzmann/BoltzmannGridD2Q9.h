@@ -2,7 +2,7 @@
 #include <math.h>
 #include <iostream>
 
-typedef float real;
+typedef double real;
 
 class BoltzmannGridD2Q9
 {
