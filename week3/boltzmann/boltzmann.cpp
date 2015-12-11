@@ -35,7 +35,10 @@ int main(int argc, char** argv)
 	const int imageHeight = 200;
 	char* boltzmannTexture = new char[imageWidth * imageHeight * 4];
 	BoltzmannGridD2Q9::BoundaryType* boundaries = new BoltzmannGridD2Q9::BoundaryType[imageWidth * imageHeight];
-
+	for (int i = 0; i < imageWidth*imageHeight; i++)
+	{
+		boundaries[i] = BoltzmannGridD2Q9::NoBoundary;
+	}
 #ifdef _WIN32
 	ImageShape object = ImageShape("airfoil.png");
 #else
