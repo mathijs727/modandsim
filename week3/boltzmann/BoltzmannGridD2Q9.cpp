@@ -33,7 +33,7 @@ const real weights[] = {
 	1. / 36.
 };
 
-BoltzmannGridD2Q9::BoltzmannGridD2Q9(real tau, int width, int height, real* data, BoundaryType* boundaries)
+BoltzmannGridD2Q9::BoltzmannGridD2Q9(real tau, int width, int height, BoundaryType* boundaries)
 {
 	m_tau = tau;
 	m_width = width;
@@ -45,8 +45,18 @@ BoltzmannGridD2Q9::BoltzmannGridD2Q9(real tau, int width, int height, real* data
 	m_data[1] = new real[m_size * 9];
 	m_boundaries = new BoundaryType[m_size];
 
-	memcpy(m_data[0], data, sizeof(real) * m_size * 9);
 	memcpy(m_boundaries, boundaries, sizeof(BoundaryType) * m_size);
+
+	for (int y = 0; y < m_height; y++)
+	{
+		for (int x = 0; x < m_width; x++)
+		{
+			for (int i = 0; i < 9; i++)
+			{
+				setValueCurrentGrid(x, y, i, 0.1);
+			}
+		}
+	}
 }
 
 BoltzmannGridD2Q9::~BoltzmannGridD2Q9()
@@ -74,9 +84,16 @@ void BoltzmannGridD2Q9::createTexture(char* texture)
 					sumY += directions[i*2+1] * getValue(x, y, i);
 				}
 
-				char value = char(sqrt(sumX*sumX + sumY*sumY)*150);
+				real velocity = sqrt(sumX*sumX + sumY*sumY);
+				char value = static_cast<char>(velocity * 400);
+				if (velocity > 5.)
+				{
+					std::cout << "kggggggg" << std::endl;
+					std::cout << "v = " << sqrt(sumX*sumX + sumY*sumY) << std::endl;
+					exit(1);
+				}
 				texture[(y * m_width + x) * 4 + 0] = 0;
-				texture[(y * m_width + x) * 4 + 1] = 0;
+				texture[(y * m_width + x) * 4 + 1] = value;
 				texture[(y * m_width + x) * 4 + 2] = value;
 			} else if (boundary == BounceBackBoundary) {
 				texture[(y * m_width + x) * 4 + 0] = (char)100;
@@ -92,9 +109,9 @@ void BoltzmannGridD2Q9::collsionStep()
 	#ifdef OPENMP_ENABLED
 	#pragma omp parallel for
 	#endif
-	for (int y = 1; y < m_height - 1; y++)
+	for (int y = 0; y < m_height; y++)
 	{
-		for (int x = 1; x < m_width - 1; x++)
+		for (int x = 0; x < m_width; x++)
 		{
 			if (getBoundaryType(x, y) == NoBoundary) {
 

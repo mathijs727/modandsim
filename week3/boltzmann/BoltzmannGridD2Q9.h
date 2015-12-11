@@ -19,7 +19,7 @@ private:
 	real* m_data[2];
 	BoundaryType* m_boundaries;
 public:
-	BoltzmannGridD2Q9(real tau, int width, int height, real* data, BoundaryType* boundaries);
+	BoltzmannGridD2Q9(real tau, int width, int height, BoundaryType* boundaries);
 	~BoltzmannGridD2Q9();
 	void createTexture(char* texture);
 	void collsionStep();

@@ -29,35 +29,7 @@ int main(int argc, char** argv)
 	const int imageHeight = 200;
 	char* boltzmannTexture = new char[imageWidth * imageHeight * 4];
 	BoltzmannGridD2Q9::BoundaryType* boundaries = new BoltzmannGridD2Q9::BoundaryType[imageWidth * imageHeight];
-	real* initialValues = new real[imageWidth * imageHeight * 9];
 
-	// Initial values
-	for (int y = 0; y < imageHeight; y++)
-	{
-		for (int x = 0; x < imageWidth; x++)
-		{
-			boundaries[y * imageWidth + x] = BoltzmannGridD2Q9::NoBoundary;
-			for (int i = 0; i < 9; i++) {
-				int index = y * imageWidth * 9 + x * 9 + i;
-				initialValues[index] = 1. / 14.;
-			}
-		}
-	}
-
-	// Generate circle object in the middle
-/*	int diameter = 10;
-	int centerWidth = 20;//imageWidth / 2;
-	int centerHeight = imageHeight / 2;
-	for (int y = 0; y < imageHeight; y++) {
-		for (int x = 0; x < imageWidth; x++) {
-			int dx = x - centerWidth;
-			int dy = y - centerHeight;
-			if (dx*dx + dy*dy < diameter*diameter)
-			{
-				boundaries[y * imageWidth + x] = BoltzmannGridD2Q9::BounceBackBoundary;
-			}
-		}
-	}*/
 #ifdef _WIN32
 	ImageShape object = ImageShape("airfoil.png");
 #else
@@ -65,8 +37,7 @@ int main(int argc, char** argv)
 #endif
 	object.createBoundaries(boundaries, imageWidth, imageHeight, 0, 30);
 
-	BoltzmannGridD2Q9 grid = BoltzmannGridD2Q9(1.0f, imageWidth, imageHeight, initialValues, boundaries);
-	delete[] initialValues;
+	BoltzmannGridD2Q9 grid = BoltzmannGridD2Q9(1.0f, imageWidth, imageHeight, boundaries);
 
 	Window window = Window(800, 400, "Boltzmann fluid simulator");
 	setupOpenGL();
