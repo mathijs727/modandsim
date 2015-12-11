@@ -1,7 +1,5 @@
 #include "ImageShape.h"
 
-
-
 ImageShape::ImageShape(const std::string& filepath)
 {
 	FREE_IMAGE_FORMAT format = FreeImage_GetFileType(filepath.c_str(), 0);
@@ -17,7 +15,6 @@ ImageShape::ImageShape(const std::string& filepath)
 	m_width = FreeImage_GetWidth(m_image);
 	m_height = FreeImage_GetHeight(m_image);
 }
-
 
 ImageShape::~ImageShape()
 {

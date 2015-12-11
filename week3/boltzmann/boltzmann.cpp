@@ -58,7 +58,11 @@ int main(int argc, char** argv)
 			}
 		}
 	}*/
+#ifdef _WIN32
 	ImageShape object = ImageShape("airfoil.png");
+#else
+	ImageShape object = ImageShape("../airfoil.png");
+#endif
 	object.createBoundaries(boundaries, imageWidth, imageHeight, 0, 30);
 
 	BoltzmannGridD2Q9 grid = BoltzmannGridD2Q9(1.0f, imageWidth, imageHeight, initialValues, boundaries);
