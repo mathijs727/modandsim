@@ -7,9 +7,6 @@
 #include "BoltzmannGridD2Q9.h"
 #include "ImageShape.h"
 
-#ifdef OPENMP_ENABLED
-#include <omp.h>
-#endif
 #include <iostream>
 
 void setupOpenGL()
@@ -21,9 +18,6 @@ void setupOpenGL()
 
 int main(int argc, char** argv)
 {
-#ifdef OPENMP_ENABLED
-	std::cout << "Number of threads: " << omp_get_max_threads() << std::endl;
-#endif
 	Vertex vertices[] = {
 		Vertex{ glm::vec2(-1.0f, 1.0f), glm::vec2(0.0f, 1.0f) },
 		Vertex{ glm::vec2(1.0f, 1.0f), glm::vec2(1.0f, 1.0f) },
