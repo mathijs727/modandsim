@@ -59,7 +59,7 @@ if __name__ == "__main__":
 	r, = plt.plot(time, results_r, color="purple")
 
 	ax = plt.gca()
-	ax.legend((s, e, i, r), ("Susceptible", "Exposed", "Infected", "Recovered"), loc="upper left")
+	ax.legend((s, e, i, r), ("Susceptible", "Exposed", "Infectious", "Recovered"), loc="upper left")
 	ax.set_title("SEIR")
 	ax.set_xlabel("t")
 	ax.set_ylabel("Number of people")

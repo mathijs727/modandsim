@@ -69,7 +69,7 @@ if __name__ == "__main__":
 	ax = plt.gca()
 	ax.legend(
 		(s, e1, e2, e3, i1, i2, i3, r),
-		("Susceptible", "Exposed 1", "Exposed 2", "Exposed 3", "Infected 1", "Infected 2", "Infected 3", "Recovered"),
+		("Susceptible", "Exposed 1", "Exposed 2", "Exposed 3", "Infectious 1", "Infectious 2", "Infectious 3", "Recovered"),
 		loc="upper left")
 	ax.set_title("Bonus SEIR")
 	ax.set_xlabel("t")
