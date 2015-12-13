@@ -31,8 +31,8 @@ int main(int argc, char** argv)
 		Vertex{ glm::vec2(1.0f, -1.0f), glm::vec2(1.0f, 0.0f) }
 	};
 
-	const int imageWidth = 400;
-	const int imageHeight = 200;
+	const int imageWidth = 1000;
+	const int imageHeight = 500;
 	char* boltzmannTexture = new char[imageWidth * imageHeight * 4];
 	BoltzmannGridD2Q9::BoundaryType* boundaries = new BoltzmannGridD2Q9::BoundaryType[imageWidth * imageHeight];
 	for (int i = 0; i < imageWidth*imageHeight; i++)
@@ -40,15 +40,15 @@ int main(int argc, char** argv)
 		boundaries[i] = BoltzmannGridD2Q9::NoBoundary;
 	}
 #ifdef _WIN32
-	ImageShape object = ImageShape("airfoil.png");
+	ImageShape object = ImageShape("vlek.png");
 #else
 	ImageShape object = ImageShape("../airfoil.png");
 #endif
-	object.createBoundaries(boundaries, imageWidth, imageHeight, 0, 30);
+	object.createBoundaries(boundaries, imageWidth, imageHeight, 200, 100);
 
 	BoltzmannGridD2Q9 grid = BoltzmannGridD2Q9(1.0f, imageWidth, imageHeight, boundaries);
 
-	Window window = Window(800, 400, "Boltzmann fluid simulator");
+	Window window = Window(1000, 500, "Boltzmann fluid simulator");
 	setupOpenGL();
 
 	Texture texture = Texture(imageWidth, imageHeight, boltzmannTexture);
