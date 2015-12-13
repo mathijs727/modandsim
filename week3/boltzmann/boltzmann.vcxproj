@@ -102,14 +102,15 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Mathijs\Documents\GitHub\modandsim\week3\boltzmann\libs\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;freeimage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy VertexShader.glsl $(OutDir)
 copy FragmentShader.glsl $(OutDir)
 copy vlek.png $(OutDir)
-copy airfoil.png $(OutDir)</Command>
+copy airfoil.png $(OutDir)
+copy $(SolutionDir)libs\$(Platform)\FreeImage.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -126,14 +127,15 @@ copy airfoil.png $(OutDir)</Command>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Mathijs\Documents\GitHub\modandsim\week3\boltzmann\libs\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;freeimage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy VertexShader.glsl $(OutDir)
 copy FragmentShader.glsl $(OutDir)
 copy vlek.png $(OutDir)
-copy airfoil.png $(OutDir)</Command>
+copy airfoil.png $(OutDir)
+copy $(SolutionDir)libs\$(Platform)\FreeImage.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -153,14 +155,15 @@ copy airfoil.png $(OutDir)</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\Mathijs\Documents\GitHub\modandsim\week3\boltzmann\libs\win32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;freeimage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy VertexShader.glsl $(OutDir)
 copy FragmentShader.glsl $(OutDir)
 copy vlek.png $(OutDir)
-copy airfoil.png $(OutDir)</Command>
+copy airfoil.png $(OutDir)
+copy $(SolutionDir)libs\$(Platform)\FreeImage.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -180,14 +183,15 @@ copy airfoil.png $(OutDir)</Command>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Users\Mathijs\Documents\GitHub\modandsim\week3\boltzmann\libs\win64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)libs\$(Platform)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>glfw3.lib;glew32s.lib;opengl32.lib;freeimage.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy VertexShader.glsl $(OutDir)
 copy FragmentShader.glsl $(OutDir)
 copy vlek.png $(OutDir)
-copy airfoil.png $(OutDir)</Command>
+copy airfoil.png $(OutDir)
+copy $(SolutionDir)libs\$(Platform)\FreeImage.dll $(OutDir)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -1,6 +1,6 @@
 #include "FPSCounter.h"
 #include <iostream>
-#ifdef WIN32
+#ifdef _WIN32
 #include <windows.h>
 #elif _POSIX_C_SOURCE >= 199309L
 #include <time.h>   // for nanosleep
@@ -10,7 +10,7 @@
 
 void sleepMilliseconds(int milliseconds)
 {
-#ifdef WIN32
+#ifdef _WIN32
 	Sleep(milliseconds);
 #elif _POSIX_C_SOURCE >= 199309L
 	struct timespec ts;
