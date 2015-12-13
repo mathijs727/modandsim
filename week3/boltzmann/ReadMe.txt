@@ -43,6 +43,7 @@ Install on Linux (Ubuntu 15.10):
 sudo apt-get install git
 sudo apt-get install cmake
 sudo apt-get install libglew-dev
+sudo apt-get install libfreeimage-dev
 
 git clone https://github.com/glfw/glfw.git
 cd glfw
@@ -56,7 +57,7 @@ mkdir build
 cd build
 cmake -G "Unix Makefiles" ..
 make
-./boltzmann
+./boltzmann-openmp
 
 /////////////////////////////////////////////////////////////////////////////
 Install on Windows:
@@ -69,10 +70,11 @@ sudo port install git
 sudo port install cmake
 sudo port install glew
 sudo port install glfw
+sudo port install freeimage
 
 [IN BOLTZMANN FOLDER]
 mkdir build
 cd build
 cmake -G "Unix Makefiles" ..
 make
-./boltzmann
+./boltzmann-openmp
