@@ -149,7 +149,7 @@ void BoltzmannGridD2Q9::streamStep()
 
 					if (fromY == -1 || fromY == m_height)
 					{
-						setValueNewGrid(x, y, i, getValue(x, y, i));
+						setValueNewGrid(x, y, i, getValue(x, y, (i + 3) % 8 + 1));
 					} else if (fromX == -1)
 					{
 						setValueNewGrid(x, y, i, 0.01);
@@ -162,7 +162,7 @@ void BoltzmannGridD2Q9::streamStep()
 							setValueNewGrid(x, y, i, getValue(fromX, fromY, i));
 						} else if (boundary == BounceBackBoundary)
 						{
-							setValueNewGrid(x, y, i, getValue(x, y, i));
+							setValueNewGrid(x, y, i, getValue(x, y, (i+3)%8+1));
 						}
 					}
 				}
