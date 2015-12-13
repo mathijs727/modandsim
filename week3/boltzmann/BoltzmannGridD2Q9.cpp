@@ -53,7 +53,7 @@ BoltzmannGridD2Q9::BoltzmannGridD2Q9(real tau, int width, int height, BoundaryTy
 		{
 			for (int i = 0; i < 9; i++)
 			{
-				setValueCurrentGrid(x, y, i, 0.01);
+				setValueCurrentGrid(x, y, i, 0.001);
 			}
 		}
 	}
@@ -68,7 +68,9 @@ BoltzmannGridD2Q9::~BoltzmannGridD2Q9()
 
 void BoltzmannGridD2Q9::createTexture(char* texture)
 {
+	#ifdef OPENMP_ENABLED
 	#pragma omp parallel for
+	#endif
 	for (int y = 0; y < m_height; y++)
 	{
 		for (int x = 0; x < m_width; x++)
@@ -85,7 +87,7 @@ void BoltzmannGridD2Q9::createTexture(char* texture)
 				}
 
 				real velocity = sqrt(sumX*sumX + sumY*sumY);
-				char value = static_cast<char>(velocity * 3000);
+				char value = static_cast<char>(velocity * 30000);
 				if (velocity > 1.)
 				{
 					std::cout << "The simulation is going crazy!" << std::endl;
@@ -152,7 +154,7 @@ void BoltzmannGridD2Q9::streamStep()
 						setValueNewGrid(x, y, i, getValue(x, y, (i + 3) % 8 + 1));
 					} else if (fromX == -1)
 					{
-						setValueNewGrid(x, y, i, 0.01);
+						setValueNewGrid(x, y, i, 0.001);
 					} else if (fromX == m_width)
 					{
 						setValueNewGrid(x, y, i, getValue(x, fromY, i));
